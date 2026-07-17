@@ -1,0 +1,8 @@
+[build]
+  publish = "build/web"
+  command = "echo 'Upload build/web or connect CI'"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
