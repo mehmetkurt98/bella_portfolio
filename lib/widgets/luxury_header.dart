@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import '../data/sample_data.dart';
 import '../models/portfolio_item.dart';
 import '../screens/projects/cola_screen.dart';
+import '../screens/projects/fitlab_screen.dart';
+import '../screens/projects/yemeksepeti_screen.dart';
 import '../screens/projects/zara_screen.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
@@ -39,6 +41,8 @@ class _LuxuryHeaderState extends State<LuxuryHeader> {
     final Widget? screen = switch (item.projectId) {
       'cola' => const ColaScreen(),
       'zara' => const ZaraScreen(),
+      'fitlab' => const FitlabScreen(),
+      'yemeksepeti' => const YemeksepetiScreen(),
       _ => null,
     };
     if (screen == null) return;

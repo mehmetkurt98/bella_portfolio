@@ -32,12 +32,6 @@ class ColaOverviewSection extends StatelessWidget {
                 decorationThickness: 2,
               ),
             ),
-            const SizedBox(height: 14),
-            Icon(
-              Icons.interests_outlined,
-              size: 22,
-              color: AppColors.foreground,
-            ),
             SizedBox(height: wide ? 24 : 18),
             Center(
               child: ConstrainedBox(
@@ -111,9 +105,7 @@ class _TimeframeCopy extends StatelessWidget {
             decorationThickness: 2,
           ),
         ),
-        const SizedBox(height: 12),
-        const Icon(Icons.schedule, size: 20),
-        const SizedBox(height: 12),
+        const SizedBox(height: 16),
         Text(
           ColaProjectData.timeframeNote,
           style: AppTheme.sans.copyWith(
@@ -124,34 +116,21 @@ class _TimeframeCopy extends StatelessWidget {
         ),
         const SizedBox(height: 24),
         for (final day in ColaProjectData.timeframeDays) ...[
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(
-                Icons.wb_sunny_outlined,
-                size: 16,
-                color: ColaProjectData.limeDark,
+          RichText(
+            text: TextSpan(
+              style: AppTheme.sans.copyWith(
+                fontSize: 13,
+                height: 1.55,
+                color: AppColors.foreground,
               ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: RichText(
-                  text: TextSpan(
-                    style: AppTheme.sans.copyWith(
-                      fontSize: 13,
-                      height: 1.55,
-                      color: AppColors.foreground,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: '${day.title}: ',
-                        style: const TextStyle(fontWeight: FontWeight.w800),
-                      ),
-                      TextSpan(text: day.body),
-                    ],
-                  ),
+              children: [
+                TextSpan(
+                  text: '${day.title}: ',
+                  style: const TextStyle(fontWeight: FontWeight.w800),
                 ),
-              ),
-            ],
+                TextSpan(text: day.body),
+              ],
+            ),
           ),
           const SizedBox(height: 14),
         ],

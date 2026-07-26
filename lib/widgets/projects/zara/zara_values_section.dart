@@ -13,6 +13,7 @@ class ZaraValuesSection extends StatelessWidget {
     final width = MediaQuery.sizeOf(context).width;
     final wide = width > 900;
     final columns = width > 1100 ? 3 : width > 700 ? 2 : 1;
+    final cards = ZaraProjectData.valueCards;
 
     return Container(
       width: double.infinity,
@@ -49,25 +50,12 @@ class ZaraValuesSection extends StatelessWidget {
               ),
             ),
             SizedBox(height: wide ? 48 : 32),
-            LayoutBuilder(
-              builder: (context, constraints) {
-                final spacing = 20.0;
-                final cardWidth =
-                    (constraints.maxWidth - spacing * (columns - 1)) / columns;
-
-                return Wrap(
-                  spacing: spacing,
-                  runSpacing: spacing,
-                  children: [
-                    for (final card in ZaraProjectData.valueCards)
-                      SizedBox(
-                        width: cardWidth,
-                        height: 269,
-                        child: _ValueCard(card: card),
-                      ),
-                  ],
-                );
-              },
+            EqualHeightGrid(
+              itemCount: cards.length,
+              columns: columns,
+              spacing: 20,
+              runSpacing: 20,
+              itemBuilder: (context, index) => _ValueCard(card: cards[index]),
             ),
           ],
         ),
@@ -84,31 +72,15 @@ class _ValueCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 287,
-      height: 269,
-      padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 24),
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 28),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: const Color(0xFFB1BFD7), width: 1),
-        gradient: const LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Color(0xFFFFFFFF),
-            Color(0xFFE4E9F1),
-            Color(0xFFE4E9F1),
-          ],
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.07),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(2),
+        border: Border.all(color: AppColors.border),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
             card.title,
@@ -125,7 +97,7 @@ class _ValueCard extends StatelessWidget {
             card.body,
             textAlign: TextAlign.center,
             style: AppTheme.sans.copyWith(
-              fontSize: 12,
+              fontSize: 13,
               fontWeight: FontWeight.w400,
               height: 1.55,
               color: AppColors.foreground,

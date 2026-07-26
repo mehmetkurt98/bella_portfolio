@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../data/cola_project_data.dart';
 import '../../theme/app_colors.dart';
 import '../../widgets/projects/cola/cola_challenge_section.dart';
 import '../../widgets/projects/cola/cola_deliver_section.dart';
@@ -22,40 +21,34 @@ class ColaScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColaProjectData.frameYellow,
-      body: SafeArea(
-        child: Container(
-          margin: const EdgeInsets.all(12),
-          color: AppColors.background,
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                PagePadding(
-                  vertical: 24,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: LuxuryTextButton(
-                      label: 'Back',
-                      onPressed: () => Navigator.of(context).maybePop(),
-                    ),
-                  ),
+      backgroundColor: AppColors.background,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            PagePadding(
+              vertical: 24,
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: LuxuryTextButton(
+                  label: 'Back',
+                  onPressed: () => Navigator.of(context).maybePop(),
                 ),
-                const ColaHeroSection(),
-                const ColaIntroSection(),
-                const ColaChallengeSection(),
-                const ColaOverviewSection(),
-                const ColaValuesSection(),
-                const ColaQuoteSection(),
-                const ColaIaSection(),
-                const ColaDesignSystemSection(),
-                const ColaPersonaSection(),
-                const ColaDevelopSection(),
-                const ColaWireframesSection(),
-                const ColaDeliverSection(),
-              ],
+              ),
             ),
-          ),
+            const ColaHeroSection(),
+            const ColaIntroSection(),
+            const ColaChallengeSection(),
+            const ColaOverviewSection(),
+            const ColaValuesSection(),
+            const ColaQuoteSection(),
+            const ColaIaSection(),
+            const ColaDesignSystemSection(),
+            const ColaPersonaSection(),
+            const ColaDevelopSection(),
+            const ColaWireframesSection(),
+            const ColaDeliverSection(),
+          ],
         ),
       ),
     );

@@ -8,13 +8,6 @@ import '../../shared.dart';
 class ZaraProjectDetailsSection extends StatelessWidget {
   const ZaraProjectDetailsSection({super.key});
 
-  static const _cardGradient = [
-    Color(0xFFFFFFFF),
-    Color(0xFFD5DAE3),
-    Color(0xFFE4E9F1),
-    Color(0xFFACBBD4),
-  ];
-
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
@@ -52,50 +45,18 @@ class ZaraProjectDetailsSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              _DetailCardsRow(cards: group.cards),
+              EqualHeightGrid(
+                itemCount: group.cards.length,
+                columns: width < 700 ? 1 : group.cards.length.clamp(1, 3),
+                spacing: 16,
+                runSpacing: 12,
+                itemBuilder: (context, index) =>
+                    _DetailCard(card: group.cards[index]),
+              ),
               SizedBox(height: wide ? 36 : 28),
             ],
           ],
         ),
-      ),
-    );
-  }
-}
-
-class _DetailCardsRow extends StatelessWidget {
-  const _DetailCardsRow({required this.cards});
-
-  final List<ZaraProjectDetailCard> cards;
-
-  @override
-  Widget build(BuildContext context) {
-    final width = MediaQuery.sizeOf(context).width;
-    final stacked = width < 700;
-
-    if (stacked) {
-      return Column(
-        children: [
-          for (var i = 0; i < cards.length; i++) ...[
-            SizedBox(
-              width: double.infinity,
-              height: 180,
-              child: _DetailCard(card: cards[i]),
-            ),
-            if (i < cards.length - 1) const SizedBox(height: 12),
-          ],
-        ],
-      );
-    }
-
-    return SizedBox(
-      height: 200,
-      child: Row(
-        children: [
-          for (var i = 0; i < cards.length; i++) ...[
-            Expanded(child: _DetailCard(card: cards[i])),
-            if (i < cards.length - 1) const SizedBox(width: 16),
-          ],
-        ],
       ),
     );
   }
@@ -109,22 +70,12 @@ class _DetailCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 24),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: const Color(0xFFB1BFD7), width: 1),
-        gradient: const LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: ZaraProjectDetailsSection._cardGradient,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(2),
+        border: Border.all(color: AppColors.border),
       ),
       child: Center(
         child: _RichBody(card: card),

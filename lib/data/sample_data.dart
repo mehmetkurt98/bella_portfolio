@@ -3,7 +3,7 @@ import '../models/portfolio_item.dart';
 
 abstract final class SampleData {
   static const ownerName = 'Bella';
-  static const tagline = 'Principal Product Designer';
+  static const tagline = 'Design & Strategy Lead';
   static const heroTitle = 'Selected Works 2026';
   static const heroSubtitle = 'Crafted with precision, emotion, and intent.';
   static const heroImage =
@@ -12,21 +12,39 @@ abstract final class SampleData {
 
   static const featuredWorks = <PortfolioItem>[
     PortfolioItem(
+      title: 'Yemeksepeti Watch',
+      category: 'UI/UX',
+      year: '2026',
+      imageAsset: 'assets/projects/yemeksepeti/ys_watch_hero.png',
+      description:
+          'Food delivery reimagined for Apple Watch — a bite away, anytime.',
+      projectId: 'yemeksepeti',
+    ),
+    PortfolioItem(
+      title: 'FitLab Eats',
+      category: 'UI/UX',
+      year: '2026',
+      imageAsset: 'assets/projects/fitlab/fitlab_cover.png',
+      description:
+          'Healthy eating made simple — nutrition habits, goals, and tracking.',
+      projectId: 'fitlab',
+    ),
+    PortfolioItem(
       title: 'Coca-Cola Lime',
       category: 'UI/UX',
       year: '2026',
-      imageAsset: 'assets/projects/cola/cola1.png',
+      imageAsset: 'assets/projects/cola/cola_cover.png',
       description:
-          'Redesigning Coca-Cola Lime\'s order page for a seamless pre-order experience.',
+          'A seamless pre-order experience for Coca-Cola Lime.',
       projectId: 'cola',
     ),
     PortfolioItem(
       title: 'Style Me Zara!',
       category: 'UI/UX',
       year: '2026',
-      imageAsset: 'assets/projects/zara/zara1.png',
+      imageAsset: 'assets/projects/zara/zara_cover.png',
       description:
-          'Personalized shopping experience reducing decision fatigue through GUIDE.',
+          'Personalized shopping that reduces decision fatigue through GUIDE.',
       projectId: 'zara',
     ),
     PortfolioItem(
@@ -102,14 +120,9 @@ abstract final class SampleData {
     ),
   ];
 
-  static const aboutText =
-      'I create refined digital experiences where design, technology, and narrative '
-      'meet. My work is guided by clarity, restraint, and a deep respect for craft — '
-      'the same principles that define the world\'s most iconic luxury houses.';
-
   static const socialLinks = <String, String>{
     'GitHub': 'https://github.com',
-    'LinkedIn': 'https://linkedin.com',
+    'LinkedIn': 'https://www.linkedin.com/in/bella-vahidoglu-8b5a9850/',
     'Dribbble': 'https://dribbble.com',
   };
 }

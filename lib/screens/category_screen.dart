@@ -8,6 +8,8 @@ import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/shared.dart';
 import 'projects/cola_screen.dart';
+import 'projects/fitlab_screen.dart';
+import 'projects/yemeksepeti_screen.dart';
 import 'projects/zara_screen.dart';
 
 class CategoryScreen extends StatelessWidget {
@@ -101,6 +103,8 @@ class _CategoryWorkCardState extends State<_CategoryWorkCard> {
     final Widget? screen = switch (item.projectId) {
       'cola' => const ColaScreen(),
       'zara' => const ZaraScreen(),
+      'fitlab' => const FitlabScreen(),
+      'yemeksepeti' => const YemeksepetiScreen(),
       _ => null,
     };
 

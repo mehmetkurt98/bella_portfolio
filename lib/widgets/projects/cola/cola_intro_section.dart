@@ -97,12 +97,6 @@ class ColaIntroSection extends StatelessWidget {
             SizedBox(height: wide ? 72 : 48),
             Row(
               children: [
-                Icon(
-                  Icons.settings_suggest_outlined,
-                  size: 20,
-                  color: AppColors.foreground,
-                ),
-                const SizedBox(width: 10),
                 Text(
                   'BACKGROUND',
                   style: AppTheme.sans.copyWith(

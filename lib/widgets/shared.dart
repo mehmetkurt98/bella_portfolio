@@ -110,3 +110,56 @@ class PagePadding extends StatelessWidget {
     );
   }
 }
+
+/// Lays out items in rows where every card in a row shares the same height.
+class EqualHeightGrid extends StatelessWidget {
+  const EqualHeightGrid({
+    super.key,
+    required this.itemCount,
+    required this.itemBuilder,
+    required this.columns,
+    this.spacing = 20,
+    this.runSpacing = 20,
+  });
+
+  final int itemCount;
+  final IndexedWidgetBuilder itemBuilder;
+  final int columns;
+  final double spacing;
+  final double runSpacing;
+
+  @override
+  Widget build(BuildContext context) {
+    final safeColumns = columns.clamp(1, 12);
+    final rows = <Widget>[];
+
+    for (var i = 0; i < itemCount; i += safeColumns) {
+      final count = (itemCount - i).clamp(0, safeColumns);
+      rows.add(
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              for (var j = 0; j < safeColumns; j++) ...[
+                if (j > 0) SizedBox(width: spacing),
+                Expanded(
+                  child: j < count
+                      ? itemBuilder(context, i + j)
+                      : const SizedBox.shrink(),
+                ),
+              ],
+            ],
+          ),
+        ),
+      );
+      if (i + safeColumns < itemCount) {
+        rows.add(SizedBox(height: runSpacing));
+      }
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: rows,
+    );
+  }
+}

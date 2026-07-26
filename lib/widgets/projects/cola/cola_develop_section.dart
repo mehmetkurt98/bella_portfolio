@@ -30,8 +30,6 @@ class ColaDevelopSection extends StatelessWidget {
                 decorationThickness: 2,
               ),
             ),
-            const SizedBox(height: 12),
-            Icon(Icons.settings, size: 20, color: ColaProjectData.yellow),
             SizedBox(height: wide ? 32 : 24),
             if (wide)
               Row(
