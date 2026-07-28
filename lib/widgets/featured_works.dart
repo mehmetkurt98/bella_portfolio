@@ -4,7 +4,10 @@ import 'package:url_launcher/url_launcher.dart';
 import '../data/sample_data.dart';
 import '../models/portfolio_item.dart';
 import '../screens/projects/cola_screen.dart';
+import '../screens/projects/feedback_screen.dart';
 import '../screens/projects/fitlab_screen.dart';
+import '../screens/projects/login_screen.dart';
+import '../screens/projects/purchase_screen.dart';
 import '../screens/projects/yemeksepeti_screen.dart';
 import '../screens/projects/zara_screen.dart';
 import '../theme/app_colors.dart';
@@ -17,11 +20,12 @@ class FeaturedWorks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final items = SampleData.featuredWorks;
+    const featuredIds = {'yemeksepeti', 'fitlab', 'cola', 'zara'};
     final featured = items
-        .where((item) => item.projectId != null)
+        .where((item) => featuredIds.contains(item.projectId))
         .toList(growable: false);
     final more = items
-        .where((item) => item.projectId == null)
+        .where((item) => !featuredIds.contains(item.projectId))
         .toList(growable: false);
 
     return Column(
@@ -110,6 +114,9 @@ class _EditorialShowcaseState extends State<_EditorialShowcase> {
       'cola' => const ColaScreen(),
       'fitlab' => const FitlabScreen(),
       'yemeksepeti' => const YemeksepetiScreen(),
+      'purchase' => const PurchaseScreen(),
+      'login' => const LoginScreen(),
+      'feedback' => const FeedbackScreen(),
       _ => null,
     };
 
@@ -328,7 +335,27 @@ class _QuietWorkTileState extends State<_QuietWorkTile> {
 
   PortfolioItem get item => widget.item;
 
+  bool get _canOpen => item.projectId != null || item.projectUrl != null;
+
   Future<void> _open() async {
+    final Widget? screen = switch (item.projectId) {
+      'purchase' => const PurchaseScreen(),
+      'login' => const LoginScreen(),
+      'feedback' => const FeedbackScreen(),
+      'zara' => const ZaraScreen(),
+      'cola' => const ColaScreen(),
+      'fitlab' => const FitlabScreen(),
+      'yemeksepeti' => const YemeksepetiScreen(),
+      _ => null,
+    };
+
+    if (screen != null) {
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (_) => screen),
+      );
+      return;
+    }
+
     final url = item.projectUrl;
     if (url == null) return;
     final uri = Uri.parse(url);
@@ -340,13 +367,13 @@ class _QuietWorkTileState extends State<_QuietWorkTile> {
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      cursor: item.projectUrl != null
+      cursor: _canOpen
           ? SystemMouseCursors.click
           : SystemMouseCursors.basic,
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
       child: GestureDetector(
-        onTap: item.projectUrl != null ? _open : null,
+        onTap: _canOpen ? _open : null,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -357,16 +384,7 @@ class _QuietWorkTileState extends State<_QuietWorkTile> {
                   scale: _hovered ? 1.03 : 1,
                   duration: const Duration(milliseconds: 700),
                   curve: Curves.easeOutCubic,
-                  child: item.imageUrl != null
-                      ? Image.network(
-                          item.imageUrl!,
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: double.infinity,
-                          errorBuilder: (context, error, stackTrace) =>
-                              Container(color: const Color(0xFFECECEC)),
-                        )
-                      : Container(color: const Color(0xFFECECEC)),
+                  child: _tileImage(),
                 ),
               ),
             ),
@@ -401,5 +419,31 @@ class _QuietWorkTileState extends State<_QuietWorkTile> {
         ),
       ),
     );
+  }
+
+  Widget _tileImage() {
+    if (item.imageAsset != null) {
+      return Image.asset(
+        item.imageAsset!,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+        errorBuilder: (context, error, stackTrace) =>
+            Container(color: const Color(0xFFECECEC)),
+      );
+    }
+
+    if (item.imageUrl != null) {
+      return Image.network(
+        item.imageUrl!,
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: double.infinity,
+        errorBuilder: (context, error, stackTrace) =>
+            Container(color: const Color(0xFFECECEC)),
+      );
+    }
+
+    return Container(color: const Color(0xFFECECEC));
   }
 }

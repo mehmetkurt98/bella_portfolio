@@ -1,120 +1,153 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../data/home_data.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import 'shared.dart';
 
 class LuxuryFooter extends StatelessWidget {
-  const LuxuryFooter({super.key});
+  const LuxuryFooter({super.key, this.onBackToTop});
 
-  @override
-  Widget build(BuildContext context) {
-    final year = DateTime.now().year;
+  final VoidCallback? onBackToTop;
 
-    return Column(
-      children: [
-        const Divider(height: 1, thickness: 1),
-        PagePadding(
-          vertical: 48,
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              final stacked = constraints.maxWidth < 800;
-
-              if (stacked) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _FooterColumn(
-                      title: 'Navigation',
-                      items: const ['Works', 'About', 'Contact'],
-                    ),
-                    const SizedBox(height: 32),
-                    _FooterColumn(
-                      title: 'Services',
-                      items: const [
-                        'Brand Identity',
-                        'Product Design',
-                        'Development',
-                      ],
-                    ),
-                    const SizedBox(height: 32),
-                    Text(
-                      '© $year Bella. All rights reserved.',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                  ],
-                );
-              }
-
-              return Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: _FooterColumn(
-                      title: 'Navigation',
-                      items: const ['Works', 'About', 'Contact'],
-                    ),
-                  ),
-                  Expanded(
-                    child: _FooterColumn(
-                      title: 'Services',
-                      items: const [
-                        'Brand Identity',
-                        'Product Design',
-                        'Development',
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: Text(
-                        '© $year Bella. All rights reserved.',
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
-        ),
-      ],
-    );
+  Future<void> _openLinkedIn() async {
+    final uri = Uri.parse(HomeData.linkedInUrl);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
   }
-}
-
-class _FooterColumn extends StatelessWidget {
-  const _FooterColumn({required this.title, required this.items});
-
-  final String title;
-  final List<String> items;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title.toUpperCase(),
-          style: AppTheme.sans.copyWith(
-            fontSize: 11,
-            letterSpacing: 2.4,
-            fontWeight: FontWeight.w600,
-          ),
+    final width = MediaQuery.sizeOf(context).width;
+    final titleSize = (width * 0.06).clamp(44.0, 92.0);
+
+    return Container(
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [AppColors.mustardSoft, AppColors.mustard],
         ),
-        const SizedBox(height: 16),
-        for (final item in items)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: Text(
-              item,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: AppColors.muted,
-                  ),
+      ),
+      child: PagePadding(
+        vertical: width < 680 ? 76 : 100,
+        child: Column(
+          children: [
+            Text(
+              "LET'S CREATE SOMETHING PEOPLE REMEMBER",
+              textAlign: TextAlign.center,
+              style: AppTheme.sans.copyWith(
+                fontSize: 9,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 1.6,
+              ),
             ),
-          ),
-      ],
+            SizedBox(height: width < 680 ? 38 : 48),
+            Text(
+              'Looking for a design leader\nwho sees the whole picture?',
+              textAlign: TextAlign.center,
+              style: AppTheme.serif.copyWith(
+                fontSize: titleSize,
+                fontWeight: FontWeight.w500,
+                height: 0.95,
+                letterSpacing: -2,
+              ),
+            ),
+            const SizedBox(height: 36),
+            Material(
+              color: AppColors.foreground,
+              borderRadius: BorderRadius.circular(999),
+              child: InkWell(
+                onTap: _openLinkedIn,
+                borderRadius: BorderRadius.circular(999),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 23, vertical: 17),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Connect on LinkedIn',
+                        style: AppTheme.sans.copyWith(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
+                      const SizedBox(width: 25),
+                      const Text(
+                        '↗',
+                        style: TextStyle(fontSize: 14, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: width < 680 ? 62 : 90),
+            Container(
+              padding: const EdgeInsets.only(top: 24),
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: AppColors.foreground.withValues(alpha: 0.3),
+                  ),
+                ),
+              ),
+              child: width < 680
+                  ? Column(
+                      children: [
+                        Text(
+                          '© 2026 ${HomeData.fullName.toUpperCase()}',
+                          style: AppTheme.sans.copyWith(
+                            fontSize: 8,
+                            letterSpacing: 1.3,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          'HEAD OF DESIGN ACROSS PRODUCT STRATEGY · UX · BRAND SYSTEMS · CREATIVE DIRECTION',
+                          textAlign: TextAlign.center,
+                          style: AppTheme.sans.copyWith(
+                            fontSize: 8,
+                            letterSpacing: 1.3,
+                          ),
+                        ),
+                        if (onBackToTop != null) ...[
+                          const SizedBox(height: 16),
+                          TextButton(
+                            onPressed: onBackToTop,
+                            child: const Text('↑ BACK TO TOP'),
+                          ),
+                        ],
+                      ],
+                    )
+                  : Row(
+                      children: [
+                        Text(
+                          '© 2026 ${HomeData.fullName.toUpperCase()}',
+                          style: AppTheme.sans.copyWith(
+                            fontSize: 8,
+                            letterSpacing: 1.3,
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          'HEAD OF DESIGN ACROSS PRODUCT STRATEGY · UX · BRAND SYSTEMS · CREATIVE DIRECTION',
+                          style: AppTheme.sans.copyWith(
+                            fontSize: 8,
+                            letterSpacing: 1.3,
+                          ),
+                        ),
+                      ],
+                    ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-import '../../data/cola_project_data.dart';
+import '../../data/purchase_project_data.dart';
 import '../../theme/app_theme.dart';
 import '../../widgets/shared.dart';
 
-class ColaScreen extends StatelessWidget {
-  const ColaScreen({super.key});
+class PurchaseScreen extends StatelessWidget {
+  const PurchaseScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColaProjectData.softBg,
+      backgroundColor: PurchaseProjectData.softBg,
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -41,10 +41,10 @@ class _BoardImagesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final assets = ColaProjectData.boardAssets;
+    final assets = PurchaseProjectData.boardAssets;
 
     return ColoredBox(
-      color: ColaProjectData.softBg,
+      color: PurchaseProjectData.softBg,
       child: PagePadding(
         vertical: 24,
         child: Column(
@@ -79,11 +79,11 @@ class _ClosingStrip extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 28),
         decoration: BoxDecoration(
-          color: ColaProjectData.darkBlue,
+          color: PurchaseProjectData.ink,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Text(
-          ColaProjectData.closing,
+          PurchaseProjectData.closing,
           textAlign: TextAlign.center,
           style: AppTheme.sans.copyWith(
             fontSize: 16,

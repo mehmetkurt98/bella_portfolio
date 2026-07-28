@@ -6,10 +6,10 @@ import 'app_colors.dart';
 abstract final class AppTheme {
   static TextStyle get serif => GoogleFonts.cormorantGaramond(
         color: AppColors.foreground,
-        letterSpacing: 0.5,
+        letterSpacing: -0.8,
       );
 
-  static TextStyle get sans => GoogleFonts.montserrat(
+  static TextStyle get sans => GoogleFonts.inter(
         color: AppColors.foreground,
       );
 
@@ -32,7 +32,7 @@ abstract final class AppTheme {
         displayLarge: serif.copyWith(
           fontSize: 72,
           fontWeight: FontWeight.w500,
-          height: 1.05,
+          height: 0.92,
         ),
         displayMedium: serif.copyWith(
           fontSize: 48,
@@ -48,12 +48,12 @@ abstract final class AppTheme {
         ),
         titleLarge: sans.copyWith(
           fontSize: 13,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
           letterSpacing: 2.4,
         ),
         titleMedium: sans.copyWith(
           fontSize: 12,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
           letterSpacing: 2,
         ),
         bodyLarge: sans.copyWith(
@@ -70,7 +70,7 @@ abstract final class AppTheme {
         ),
         labelLarge: sans.copyWith(
           fontSize: 11,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w600,
           letterSpacing: 2.2,
         ),
       ),

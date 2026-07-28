@@ -8,13 +8,43 @@ abstract final class ColaProjectData {
   static const lime = Color(0xFF9DD055);
   static const limeDark = Color(0xFF7AB82E);
   static const quoteBg = Color(0xFFE5E14E);
+  static const softBg = Color(0xFFF7F6F2);
+  static const ink = Color(0xFF111111);
 
   static const title = 'COCA-COLA LIME ORDERING EXPERIENCE PROJECT';
   static const subtitle =
       'Redesigning Coca-Cola Lime\'s Order Page To Deliver A Seamless And '
       'Visually Engaging User Experience.';
 
-  static const heroImage = 'assets/projects/cola/cola1.png';
+  static const closing =
+      'A seamless pre-order experience designed for clarity, delight, and brand energy.';
+
+  /// Figma board exports in case-study order.
+  static const boardAssets = <String>[
+    'assets/projects/cola/coca_cola1.webp',
+    'assets/projects/cola/coca_cola2.webp',
+    'assets/projects/cola/coca_cola3.webp',
+    'assets/projects/cola/coca_cola4.webp',
+    'assets/projects/cola/coca_cola5.webp',
+    'assets/projects/cola/coca_cola6.webp',
+    'assets/projects/cola/coca_cola7.webp',
+    'assets/projects/cola/coca_cola8.webp',
+    'assets/projects/cola/coca_cola9.webp',
+    'assets/projects/cola/coca_cola10.webp',
+    'assets/projects/cola/coca_cola11.webp',
+    'assets/projects/cola/coca_cola12.webp',
+    'assets/projects/cola/coca_cola13.webp',
+    'assets/projects/cola/coca_cola14.webp',
+    'assets/projects/cola/coca_cola15.webp',
+    'assets/projects/cola/coca_cola16.webp',
+    'assets/projects/cola/coca_cola17.webp',
+    'assets/projects/cola/coca_cola18.webp',
+    'assets/projects/cola/coca_cola19.webp',
+    'assets/projects/cola/coca_cola20.webp',
+    'assets/projects/cola/coca_cola21.webp',
+  ];
+
+  static const heroImage = 'assets/projects/cola/coca_cola1.webp';
   static const logoIcon = 'assets/projects/cola/cola30.png';
   static const challengeImage = 'assets/projects/cola/cola2.png';
   static const timeframeImage = 'assets/projects/cola/cola3.png';

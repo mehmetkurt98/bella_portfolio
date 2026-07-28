@@ -15,7 +15,7 @@ abstract final class SampleData {
       title: 'Yemeksepeti Watch',
       category: 'UI/UX',
       year: '2026',
-      imageAsset: 'assets/projects/yemeksepeti/ys_watch_hero.png',
+      imageAsset: 'assets/projects/yemeksepeti/ys_cover.png',
       description:
           'Food delivery reimagined for Apple Watch — a bite away, anytime.',
       projectId: 'yemeksepeti',
@@ -48,14 +48,31 @@ abstract final class SampleData {
       projectId: 'zara',
     ),
     PortfolioItem(
-      title: 'Aurora Brand Identity',
-      category: 'Branding',
+      title: 'Purchase Experience',
+      category: 'UI/UX',
       year: '2026',
-      imageUrl:
-          'https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=1200&q=80',
+      imageAsset: 'assets/projects/purchase/purchase_experience.webp',
       description:
-          'A refined visual system for a contemporary lifestyle label.',
-      projectUrl: 'https://example.com',
+          'A purchase flow designed for clarity, confidence, and conversion.',
+      projectId: 'purchase',
+    ),
+    PortfolioItem(
+      title: 'Login & Registration',
+      category: 'UI/UX',
+      year: '2026',
+      imageAsset: 'assets/projects/login/login_cover.png',
+      description:
+          'Effortlessly log in or register to access services.',
+      projectId: 'login',
+    ),
+    PortfolioItem(
+      title: 'Feedback',
+      category: 'UI/UX',
+      year: '2026',
+      imageAsset: 'assets/projects/feedback/feedback_cover.png',
+      description:
+          'Quick feedback that enhances engagement and product improvement.',
+      projectId: 'feedback',
     ),
     PortfolioItem(
       title: 'Monolith E-Commerce',

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 /// Update these fields to change the About page without touching layout code.
 abstract final class AboutData {
   static const portraitAsset = 'assets/about/portrait.png';
+  static const boardAsset = 'assets/about/about_board.png';
+  static const logoAsset = 'assets/about/bv_logo.png';
 
   static const aboutTitle = 'ABOUT ME';
   static const aboutBody =

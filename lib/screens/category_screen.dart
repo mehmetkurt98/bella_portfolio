@@ -8,7 +8,10 @@ import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/shared.dart';
 import 'projects/cola_screen.dart';
+import 'projects/feedback_screen.dart';
 import 'projects/fitlab_screen.dart';
+import 'projects/login_screen.dart';
+import 'projects/purchase_screen.dart';
 import 'projects/yemeksepeti_screen.dart';
 import 'projects/zara_screen.dart';
 
@@ -105,6 +108,9 @@ class _CategoryWorkCardState extends State<_CategoryWorkCard> {
       'zara' => const ZaraScreen(),
       'fitlab' => const FitlabScreen(),
       'yemeksepeti' => const YemeksepetiScreen(),
+      'purchase' => const PurchaseScreen(),
+      'login' => const LoginScreen(),
+      'feedback' => const FeedbackScreen(),
       _ => null,
     };
 

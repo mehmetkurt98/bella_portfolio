@@ -64,7 +64,11 @@ flutter:
     - assets/projects/cola/
     - assets/projects/fitlab/
     - assets/projects/yemeksepeti/
+    - assets/projects/purchase/
+    - assets/projects/login/
+    - assets/projects/feedback/
     - assets/about/
+    - assets/site/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
