@@ -22,6 +22,7 @@ class CaseStudiesSection extends StatelessWidget {
     final width = MediaQuery.sizeOf(context).width;
     final wide = width > 900;
     final titleSize = (width * 0.044).clamp(40.0, 66.0);
+    final columns = width > 1120 ? 3 : width > 680 ? 2 : 1;
 
     return ColoredBox(
       color: AppColors.background,
@@ -72,7 +73,7 @@ class CaseStudiesSection extends StatelessWidget {
                     ],
                   ),
             SizedBox(height: width < 680 ? 42 : 68),
-            const _CaseGrid(),
+            _CaseGrid(columns: columns),
           ],
         ),
       ),
@@ -122,62 +123,55 @@ class _Heading extends StatelessWidget {
 }
 
 class _CaseGrid extends StatelessWidget {
-  const _CaseGrid();
+  const _CaseGrid({required this.columns});
+
+  final int columns;
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.sizeOf(context).width;
-    final twoCol = width > 680;
     final items = HomeData.caseStudies;
+    final rows = <Widget>[];
 
-    if (!twoCol) {
-      return Column(
-        children: [
-          for (var i = 0; i < items.length; i++) ...[
-            if (i > 0) const SizedBox(height: 54),
-            _CaseCard(item: items[i], stacked: true),
-          ],
-        ],
-      );
-    }
-
-    final children = <Widget>[];
-    for (var i = 0; i < items.length; i++) {
-      final item = items[i];
-      if (item.wide) {
-        children.add(_CaseCard(item: item, stacked: false));
-        children.add(const SizedBox(height: 72));
-      } else if (i + 1 < items.length && !items[i + 1].wide) {
-        children.add(
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(child: _CaseCard(item: item, stacked: true)),
-              const SizedBox(width: 22),
-              Expanded(child: _CaseCard(item: items[i + 1], stacked: true)),
+    for (var i = 0; i < items.length; i += columns) {
+      final count = (items.length - i).clamp(0, columns);
+      rows.add(
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (var j = 0; j < columns; j++) ...[
+              if (j > 0) const SizedBox(width: 24),
+              Expanded(
+                child: j < count
+                    ? _FeatureCaseCard(item: items[i + j])
+                    : const SizedBox.shrink(),
+              ),
             ],
-          ),
-        );
-        children.add(const SizedBox(height: 72));
-        i++;
-      } else {
-        children.add(_CaseCard(item: item, stacked: true));
-        children.add(const SizedBox(height: 72));
+          ],
+        ),
+      );
+      if (i + columns < items.length) {
+        rows.add(const SizedBox(height: 24));
       }
     }
 
-    return Column(children: children);
+    return Column(children: rows);
   }
 }
 
-class _CaseCard extends StatelessWidget {
-  const _CaseCard({required this.item, required this.stacked});
+class _FeatureCaseCard extends StatefulWidget {
+  const _FeatureCaseCard({required this.item});
 
   final HomeCaseStudy item;
-  final bool stacked;
 
-  void _open(BuildContext context) {
-    final Widget? screen = switch (item.projectId) {
+  @override
+  State<_FeatureCaseCard> createState() => _FeatureCaseCardState();
+}
+
+class _FeatureCaseCardState extends State<_FeatureCaseCard> {
+  bool _hovered = false;
+
+  void _openProject() {
+    final Widget? screen = switch (widget.item.projectId) {
       'zara' => const ZaraScreen(),
       'cola' => const ColaScreen(),
       'fitlab' => const FitlabScreen(),
@@ -195,87 +189,372 @@ class _CaseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final titleSize =
-        (MediaQuery.sizeOf(context).width * 0.03).clamp(34.0, 50.0);
-    final clickable = item.projectId != null;
+    final width = MediaQuery.sizeOf(context).width;
+    final compact = width < 680;
+    final canOpen = widget.item.projectId != null;
 
-    final image = Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.border),
-        color: Colors.white,
+    return MouseRegion(
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      cursor: canOpen ? SystemMouseCursors.click : SystemMouseCursors.basic,
+      child: GestureDetector(
+        onTap: canOpen ? _openProject : null,
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 280),
+          curve: Curves.easeOutCubic,
+          transform: Matrix4.translationValues(0, _hovered ? -6 : 0, 0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(compact ? 20 : 25),
+            border: Border.all(
+              color: AppColors.mustard.withValues(alpha: _hovered ? 1 : 0.8),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.foreground.withValues(
+                  alpha: _hovered ? 0.14 : 0.09,
+                ),
+                blurRadius: _hovered ? 64 : 48,
+                offset: Offset(0, _hovered ? 24 : 16),
+              ),
+              if (_hovered)
+                BoxShadow(
+                  color: AppColors.mustard.withValues(alpha: 0.1),
+                  blurRadius: 0,
+                  spreadRadius: 5,
+                ),
+            ],
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: AspectRatio(
+            aspectRatio: compact ? 1.08 : 1.18,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final panelW =
+                    constraints.maxWidth * (compact ? 0.56 : 0.53);
+                final maxPanelH =
+                    constraints.maxHeight * (compact ? 0.78 : 0.72);
+
+                return Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    _CaseVisual(item: widget.item, hovered: _hovered),
+                    IgnorePointer(
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.white.withValues(alpha: 0),
+                              Colors.white.withValues(alpha: 0.12),
+                              Colors.white.withValues(alpha: 0.35),
+                            ],
+                            stops: const [0.38, 0.68, 1],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: compact ? 12 : 16,
+                      top: compact ? 12 : 16,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: compact ? 10 : 11,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.88),
+                          borderRadius: BorderRadius.circular(999),
+                          border: Border.all(
+                            color: AppColors.mustard.withValues(alpha: 0.9),
+                          ),
+                        ),
+                        child: Text(
+                          widget.item.keyword,
+                          style: AppTheme.sans.copyWith(
+                            fontSize: 7,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 1.6,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: compact ? 12 : 16,
+                      top: 0,
+                      bottom: 0,
+                      width: panelW,
+                      child: Center(
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxWidth: panelW,
+                            maxHeight: maxPanelH,
+                          ),
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            alignment: Alignment.center,
+                            child: SizedBox(
+                              width: panelW,
+                              child: _CoverCopy(item: widget.item),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+        ),
       ),
-      child: AspectRatio(
-        aspectRatio: item.wide && !stacked ? 1.75 : 1.42,
+    );
+  }
+}
+
+class _CaseVisual extends StatelessWidget {
+  const _CaseVisual({required this.item, required this.hovered});
+
+  final HomeCaseStudy item;
+  final bool hovered;
+
+  @override
+  Widget build(BuildContext context) {
+    if (item.secondaryImage != null) {
+      return _PurchaseMontage(
+        primary: item.image,
+        secondary: item.secondaryImage!,
+        hovered: hovered,
+      );
+    }
+
+    return AnimatedScale(
+      scale: hovered ? 1.035 : 1,
+      duration: const Duration(milliseconds: 650),
+      curve: const Cubic(0.2, 0.7, 0.2, 1),
+      child: Image.asset(
+        item.image,
+        fit: BoxFit.cover,
+        alignment: Alignment.center,
+        filterQuality: FilterQuality.high,
+        width: double.infinity,
+        height: double.infinity,
+      ),
+    );
+  }
+}
+
+class _PurchaseMontage extends StatelessWidget {
+  const _PurchaseMontage({
+    required this.primary,
+    required this.secondary,
+    required this.hovered,
+  });
+
+  final String primary;
+  final String secondary;
+  final bool hovered;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final phoneW = constraints.maxWidth * 0.43;
+        return Stack(
+          fit: StackFit.expand,
+          children: [
+            DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Colors.white,
+                    const Color(0xFFF5F5F3),
+                    AppColors.mustard.withValues(alpha: 0.55),
+                  ],
+                  stops: const [0, 0.65, 1],
+                ),
+              ),
+            ),
+            Positioned(
+              left: constraints.maxWidth * 0.01,
+              top: constraints.maxHeight * 0.09,
+              width: phoneW,
+              height: constraints.maxHeight * 0.83,
+              child: Transform.rotate(
+                angle: -0.07,
+                child: _MontagePhone(asset: primary, hovered: hovered),
+              ),
+            ),
+            Positioned(
+              right: constraints.maxWidth * 0.16,
+              top: constraints.maxHeight * 0.11,
+              width: constraints.maxWidth * 0.45,
+              height: constraints.maxHeight * 0.79,
+              child: Transform.rotate(
+                angle: 0.07,
+                child: _MontagePhone(asset: secondary, hovered: hovered),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _MontagePhone extends StatelessWidget {
+  const _MontagePhone({required this.asset, required this.hovered});
+
+  final String asset;
+  final bool hovered;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedScale(
+      scale: hovered ? 1.03 : 1,
+      duration: const Duration(milliseconds: 450),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white.withValues(alpha: 0.96),
+          borderRadius: BorderRadius.circular(13),
+          border: Border.all(color: Colors.white, width: 4),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.foreground.withValues(alpha: 0.16),
+              blurRadius: 45,
+              offset: const Offset(0, 18),
+            ),
+          ],
+        ),
+        clipBehavior: Clip.antiAlias,
         child: Image.asset(
-          item.image,
+          asset,
           fit: BoxFit.contain,
           filterQuality: FilterQuality.high,
         ),
       ),
     );
+  }
+}
 
-    final meta = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          item.type,
-          style: AppTheme.sans.copyWith(
-            fontSize: 8,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 1.4,
-            color: AppColors.muted,
+class _CoverCopy extends StatelessWidget {
+  const _CoverCopy({required this.item});
+
+  final HomeCaseStudy item;
+
+  @override
+  Widget build(BuildContext context) {
+    final compact = MediaQuery.sizeOf(context).width < 680;
+
+    return Container(
+      padding: EdgeInsets.fromLTRB(
+        compact ? 14 : 18,
+        compact ? 16 : 18,
+        compact ? 14 : 18,
+        compact ? 14 : 16,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.91),
+        borderRadius: BorderRadius.circular(compact ? 16 : 19),
+        border: Border.all(color: AppColors.mustard.withValues(alpha: 0.88)),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.foreground.withValues(alpha: 0.13),
+            blurRadius: 48,
+            offset: const Offset(0, 18),
           ),
-        ),
-        const SizedBox(height: 9),
-        Text(
-          item.title,
-          style: AppTheme.serif.copyWith(
-            fontSize: titleSize,
-            fontWeight: FontWeight.w500,
-            height: 1.05,
-            letterSpacing: -1,
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            item.type,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: AppTheme.sans.copyWith(
+              fontSize: 6,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1.5,
+              height: 1.4,
+              color: AppColors.muted,
+            ),
           ),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          item.copy,
-          style: AppTheme.sans.copyWith(
-            fontSize: 12,
-            height: 1.65,
-            color: AppColors.muted,
+          const SizedBox(height: 8),
+          Text(
+            item.title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: AppTheme.serif.copyWith(
+              fontSize: compact ? 26 : 30,
+              fontWeight: FontWeight.w500,
+              height: 0.96,
+              letterSpacing: -1,
+            ),
           ),
-        ),
-      ],
-    );
-
-    final content = item.wide && !stacked
-        ? Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Expanded(flex: 145, child: image),
-              const SizedBox(width: 28),
-              Expanded(flex: 55, child: meta),
-            ],
-          )
-        : Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              image,
-              const SizedBox(height: 22),
-              meta,
-            ],
-          );
-
-    if (!clickable) return content;
-
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => _open(context),
-        child: content,
+          const SizedBox(height: 8),
+          Text(
+            item.headline,
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+            style: AppTheme.sans.copyWith(
+              fontSize: 8,
+              height: 1.45,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 3),
+          Text(
+            item.subline,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: AppTheme.sans.copyWith(
+              fontSize: 8,
+              height: 1.45,
+              color: AppColors.muted,
+            ),
+          ),
+          const SizedBox(height: 12),
+          Container(
+            padding: const EdgeInsets.only(top: 10),
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: AppColors.foreground.withValues(alpha: 0.13),
+                ),
+              ),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    'VIEW PROJECT',
+                    style: AppTheme.sans.copyWith(
+                      fontSize: 7,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 1.1,
+                    ),
+                  ),
+                ),
+                Container(
+                  width: 25,
+                  height: 25,
+                  decoration: const BoxDecoration(
+                    color: AppColors.mustard,
+                    shape: BoxShape.circle,
+                  ),
+                  alignment: Alignment.center,
+                  child: const Text(
+                    '↗',
+                    style: TextStyle(fontSize: 13, height: 1),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

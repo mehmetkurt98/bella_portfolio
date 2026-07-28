@@ -76,7 +76,7 @@ abstract final class HomeData {
     DeliveredWork(
       title: 'Consulate General of the Republic of Türkiye in New York',
       label: 'DIPLOMATIC MISSION · DIGITAL COMMUNICATIONS',
-      image: 'assets/site/consulate-logo.png',
+      image: '',
       intro:
           'Made public-facing information clearer and built trusted digital '
           'communication across a high-stakes diplomatic environment.',
@@ -85,56 +85,203 @@ abstract final class HomeData {
           'stakeholder journeys, partnerships, and cross-cultural communication.',
       result:
           '11 years translating institutional complexity into clear public experiences',
-      logoOnly: true,
+      textOnly: true,
     ),
   ];
 
   static const caseStudies = <HomeCaseStudy>[
     HomeCaseStudy(
-      title: 'Style Me Zara',
+      title: 'Style Me Zara!',
       type: 'PERSONALIZED COMMERCE UX',
-      image: 'assets/site/zara-case.png',
-      copy:
-          'A guided fashion experience designed to reduce decision fatigue and '
-          'make discovery feel personal.',
-      wide: true,
+      image: 'assets/site/zara-guide-cover.png',
+      headline: 'Redesigning Personalized Shopping Experiences',
+      subline: 'Tailored to You, by GUIDE.',
+      keyword: 'PERSONAL',
       projectId: 'zara',
+      details: [
+        CaseDetail(
+          label: '01 / CHALLENGE',
+          title: 'Make fashion discovery feel personal.',
+          copy:
+              'Reduce decision fatigue while helping people move from inspiration '
+              'to a confident choice.',
+        ),
+        CaseDetail(
+          label: '02 / DESIGN DIRECTION',
+          title: 'One guide, two clear paths.',
+          copy:
+              'Users can style an existing item or discover a look shaped around '
+              'their individual preferences.',
+        ),
+        CaseDetail(
+          label: '03 / VALUE',
+          title: 'Clarity without losing aspiration.',
+          copy:
+              'A minimal commerce experience balances editorial storytelling, '
+              'guidance, and fast navigation.',
+        ),
+      ],
     ),
     HomeCaseStudy(
-      title: 'Apple Watch',
-      type: 'WEARABLE INTERACTION',
-      image: 'assets/site/apple-watch-case.png',
-      copy:
-          'A glanceable food-ordering flow designed for compact navigation, '
-          'hierarchy, and touch.',
+      title: 'A Bite Away, Anytime!',
+      type: 'YEMEKSEPETI · APPLE WATCH',
+      image: 'assets/site/apple-watch-wrist.png',
+      headline: 'Food delivery, reimagined for your wrist.',
+      subline: 'Faster, simpler, and always within reach.',
+      keyword: 'CONVENIENCE',
       projectId: 'yemeksepeti',
+      details: [
+        CaseDetail(
+          label: '01 / CHALLENGE',
+          title: 'Bring ordering into a glanceable format.',
+          copy:
+              'Translate a multi-step food delivery journey into focused decisions '
+              'that work on a compact screen.',
+        ),
+        CaseDetail(
+          label: '02 / INTERACTION',
+          title: 'Designed for quick, confident actions.',
+          copy:
+              'Clear hierarchy, wrist-friendly touch targets, and real-time order '
+              'updates keep every interaction effortless.',
+        ),
+        CaseDetail(
+          label: '03 / EXPERIENCE',
+          title: 'Convenience that moves with you.',
+          copy:
+              'Favorite meals, essential choices, and delivery status stay '
+              'accessible anytime and anywhere.',
+        ),
+      ],
     ),
     HomeCaseStudy(
       title: 'Coca-Cola Lime',
-      type: 'CAMPAIGN STORYTELLING',
-      image: 'assets/site/coca-cola-case.png',
-      copy:
-          'A bold seasonal concept extending one product story across memorable '
-          'digital touchpoints.',
+      type: 'ORDERING EXPERIENCE · UI/UX',
+      image: 'assets/site/coca-cola-laptop.png',
+      headline: "Redesigning Coca-Cola Lime's order page",
+      subline: 'A seamless and visually engaging user experience.',
+      keyword: 'ENERGY',
       projectId: 'cola',
+      details: [
+        CaseDetail(
+          label: '01 / CHALLENGE',
+          title: 'Turn product energy into a clear path.',
+          copy:
+              'Create an ordering experience that feels vibrant and branded without '
+              'competing with the purchase task.',
+        ),
+        CaseDetail(
+          label: '02 / DESIGN DIRECTION',
+          title: 'Bold storytelling, controlled hierarchy.',
+          copy:
+              'Product imagery, color, typography, and calls to action work together '
+              'to guide attention naturally.',
+        ),
+        CaseDetail(
+          label: '03 / VALUE',
+          title: 'Engagement that supports conversion.',
+          copy:
+              'The refreshed page makes selection feel intuitive while keeping the '
+              'Coca-Cola Lime story memorable.',
+        ),
+      ],
     ),
     HomeCaseStudy(
-      title: 'Ordering Page',
-      type: 'CHECKOUT & CONVERSION UX',
+      title: 'Purchase',
+      type: 'PURCHASE FLOW · CONVERSION UX',
       image: 'assets/site/zara-purchase.png',
-      copy:
-          'A focused ordering flow designed to reduce friction, clarify decisions, '
-          'and keep momentum through checkout.',
+      secondaryImage: 'assets/site/purchase-samsung.webp',
+      headline: 'Purchase your items easily',
+      subline: 'In just a few simple steps.',
+      keyword: 'EFFORTLESS',
       projectId: 'purchase',
+      details: [
+        CaseDetail(
+          label: '01 / CHALLENGE',
+          title: 'Remove uncertainty from checkout.',
+          copy:
+              'Make cost, delivery, payment, and order decisions easy to understand '
+              'at every step.',
+        ),
+        CaseDetail(
+          label: '02 / FLOW',
+          title: 'Only the information users need.',
+          copy:
+              'A focused sequence, clear progress, and familiar interaction patterns '
+              'reduce friction and hesitation.',
+        ),
+        CaseDetail(
+          label: '03 / OUTCOME',
+          title: 'A faster path from cart to confirmation.',
+          copy:
+              'The simplified experience preserves momentum while improving '
+              'confidence and completion.',
+        ),
+      ],
     ),
     HomeCaseStudy(
       title: 'Components',
       type: 'UI & DESIGN SYSTEMS',
-      image: 'assets/site/zara-components.png',
-      copy:
-          'Reusable interface patterns that bring consistency, speed, and quality '
-          'to product teams at scale.',
+      image: 'assets/site/components-system-cover.png',
+      headline: 'A system designed to scale',
+      subline: 'Reusable patterns. Consistent experiences.',
+      keyword: 'SYSTEM',
       projectId: 'zara',
+      details: [
+        CaseDetail(
+          label: '01 / FOUNDATION',
+          title: 'Build consistency into the product.',
+          copy:
+              'Shared tokens, states, spacing, and accessibility rules create one '
+              'dependable visual language.',
+        ),
+        CaseDetail(
+          label: '02 / COMPONENTS',
+          title: 'Reusable without becoming rigid.',
+          copy:
+              'Flexible patterns support search, forms, ratings, payments, '
+              'navigation, and recurring product needs.',
+        ),
+        CaseDetail(
+          label: '03 / IMPACT',
+          title: 'More speed, less design debt.',
+          copy:
+              'Documented behavior helps design and engineering ship faster while '
+              'protecting usability and quality.',
+        ),
+      ],
+    ),
+    HomeCaseStudy(
+      title: 'Login & Registration',
+      type: 'ACCOUNT ACCESS · ONBOARDING UX',
+      image: 'assets/site/login-registration.png',
+      headline: 'Effortless access from the first step',
+      subline: 'Log in, register, verify, and begin.',
+      keyword: 'ACCESS',
+      projectId: 'login',
+      details: [
+        CaseDetail(
+          label: '01 / CHALLENGE',
+          title: 'Make account access feel effortless.',
+          copy:
+              'Reduce friction across registration, sign-in, verification, and the '
+              'first successful account moment.',
+        ),
+        CaseDetail(
+          label: '02 / FLOW',
+          title: 'One clear step at a time.',
+          copy:
+              'Focused forms, familiar sign-in options, concise guidance, and '
+              'visible feedback help users move confidently.',
+        ),
+        CaseDetail(
+          label: '03 / VALUE',
+          title: 'Trust begins before shopping.',
+          copy:
+              'A consistent cross-platform experience creates clarity while preparing '
+              'users for faster future purchases.',
+        ),
+      ],
     ),
   ];
 
@@ -387,7 +534,7 @@ class DeliveredWork {
     required this.intro,
     required this.scope,
     required this.result,
-    this.logoOnly = false,
+    this.textOnly = false,
   });
 
   final String title;
@@ -396,7 +543,7 @@ class DeliveredWork {
   final String intro;
   final String scope;
   final String result;
-  final bool logoOnly;
+  final bool textOnly;
 }
 
 class HomeCaseStudy {
@@ -404,17 +551,35 @@ class HomeCaseStudy {
     required this.title,
     required this.type,
     required this.image,
-    required this.copy,
-    this.wide = false,
+    required this.headline,
+    required this.subline,
+    required this.keyword,
+    required this.details,
+    this.secondaryImage,
     this.projectId,
   });
 
   final String title;
   final String type;
   final String image;
-  final String copy;
-  final bool wide;
+  final String? secondaryImage;
+  final String headline;
+  final String subline;
+  final String keyword;
+  final List<CaseDetail> details;
   final String? projectId;
+}
+
+class CaseDetail {
+  const CaseDetail({
+    required this.label,
+    required this.title,
+    required this.copy,
+  });
+
+  final String label;
+  final String title;
+  final String copy;
 }
 
 class FaqItem {

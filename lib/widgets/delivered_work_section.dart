@@ -240,18 +240,19 @@ class _ExpandedBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final wide = MediaQuery.sizeOf(context).width > 900;
-    final textOnly = project.logoOnly;
+    final textOnly = project.textOnly || project.image.isEmpty;
 
     final copy = Container(
+      width: double.infinity,
       constraints: BoxConstraints(
         minHeight: textOnly ? 0 : (wide ? 530 : 340),
-        maxWidth: textOnly ? 820 : double.infinity,
+        maxWidth: textOnly ? 920 : double.infinity,
       ),
       padding: EdgeInsets.fromLTRB(
-        wide ? 52 : 28,
-        wide ? (textOnly ? 28 : 52) : 28,
-        wide ? 52 : 28,
-        wide ? (textOnly ? 40 : 52) : 28,
+        wide ? (textOnly ? 8 : 52) : 28,
+        wide ? (textOnly ? 20 : 52) : 28,
+        wide ? (textOnly ? 8 : 52) : 28,
+        wide ? (textOnly ? 36 : 52) : 28,
       ),
       color: Colors.white,
       child: Column(
@@ -320,10 +321,7 @@ class _ExpandedBody extends StatelessWidget {
     if (textOnly) {
       return Padding(
         padding: const EdgeInsets.only(bottom: 38),
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: copy,
-        ),
+        child: copy,
       );
     }
 
