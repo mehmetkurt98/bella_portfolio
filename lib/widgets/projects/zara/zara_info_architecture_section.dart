@@ -8,7 +8,7 @@ import '../../shared.dart';
 class ZaraInfoArchitectureSection extends StatelessWidget {
   const ZaraInfoArchitectureSection({super.key});
 
-  static const _diagramAsset = 'assets/projects/zara/zara_table.png';
+  static const _diagramAsset = 'assets/projects/zara/zara_table.webp';
 
   @override
   Widget build(BuildContext context) {

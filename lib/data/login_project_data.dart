@@ -11,6 +11,6 @@ abstract final class LoginProjectData {
       'Effortlessly log in or register to access services.';
 
   static const boardAssets = <String>[
-    'assets/projects/login/login_cover.png',
+    'assets/projects/login/login_cover.webp',
   ];
 }

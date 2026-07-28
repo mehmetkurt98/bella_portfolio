@@ -6,8 +6,8 @@ abstract final class HomeData {
   static const linkedInUrl =
       'https://www.linkedin.com/in/bella-vahidoglu-8b5a9850/';
 
-  static const monogramAsset = 'assets/site/bella-monogram.png';
-  static const heroPortraitAsset = 'assets/site/bella-white-shirt.png';
+  static const monogramAsset = 'assets/site/bella-monogram.webp';
+  static const heroPortraitAsset = 'assets/site/bella-white-shirt.webp';
 
   static const heroHeadlineLead = "I'm a Head of Design,";
   static const heroHeadlineLine2 = 'product designer,';
@@ -37,7 +37,7 @@ abstract final class HomeData {
     DeliveredWork(
       title: 'UN Women',
       label: 'GLOBAL UX · PRODUCT DESIGN · DESIGN SYSTEMS',
-      image: 'assets/site/unwomen-work-detail.png',
+      image: 'assets/site/unwomen-work-detail.webp',
       intro:
           'Led UX strategy, product design, accessibility, and design-system '
           'direction across a complex global digital ecosystem.',
@@ -51,7 +51,7 @@ abstract final class HomeData {
     DeliveredWork(
       title: 'FitLab Eats',
       label: 'HEAD OF DESIGN · PRODUCT DESIGN · BRAND · DESIGN SYSTEM',
-      image: 'assets/site/fitlab-case.png',
+      image: 'assets/site/fitlab-case.webp',
       intro:
           'Built a new mobile health experience from a blank page—connecting '
           'product strategy, behavior, brand, and launch.',
@@ -63,7 +63,7 @@ abstract final class HomeData {
     DeliveredWork(
       title: 'Pillox',
       label: 'HEAD OF DESIGN · PRODUCT DESIGN · BRAND · DESIGN SYSTEM',
-      image: 'assets/site/pillox-ui.jpeg',
+      image: 'assets/site/pillox-ui.webp',
       intro:
           'Designed a medication reminder app that makes daily treatment routines '
           'feel clear, reassuring, and easy to manage.',
@@ -93,7 +93,7 @@ abstract final class HomeData {
     HomeCaseStudy(
       title: 'Style Me Zara!',
       type: 'PERSONALIZED COMMERCE UX',
-      image: 'assets/site/zara-guide-cover.png',
+      image: 'assets/site/zara-guide-cover.webp',
       headline: 'Redesigning Personalized Shopping Experiences',
       subline: 'Tailored to You, by GUIDE.',
       keyword: 'PERSONAL',
@@ -125,7 +125,7 @@ abstract final class HomeData {
     HomeCaseStudy(
       title: 'A Bite Away, Anytime!',
       type: 'YEMEKSEPETI · APPLE WATCH',
-      image: 'assets/site/apple-watch-wrist.png',
+      image: 'assets/site/apple-watch-wrist.webp',
       headline: 'Food delivery, reimagined for your wrist.',
       subline: 'Faster, simpler, and always within reach.',
       keyword: 'CONVENIENCE',
@@ -157,7 +157,7 @@ abstract final class HomeData {
     HomeCaseStudy(
       title: 'Coca-Cola Lime',
       type: 'ORDERING EXPERIENCE · UI/UX',
-      image: 'assets/site/coca-cola-laptop.png',
+      image: 'assets/site/coca-cola-laptop.webp',
       headline: "Redesigning Coca-Cola Lime's order page",
       subline: 'A seamless and visually engaging user experience.',
       keyword: 'ENERGY',
@@ -189,7 +189,7 @@ abstract final class HomeData {
     HomeCaseStudy(
       title: 'Purchase',
       type: 'PURCHASE FLOW · CONVERSION UX',
-      image: 'assets/site/zara-purchase.png',
+      image: 'assets/site/zara-purchase.webp',
       secondaryImage: 'assets/site/purchase-samsung.webp',
       headline: 'Purchase your items easily',
       subline: 'In just a few simple steps.',
@@ -222,7 +222,7 @@ abstract final class HomeData {
     HomeCaseStudy(
       title: 'Components',
       type: 'UI & DESIGN SYSTEMS',
-      image: 'assets/site/components-system-cover.png',
+      image: 'assets/site/components-system-cover.webp',
       headline: 'A system designed to scale',
       subline: 'Reusable patterns. Consistent experiences.',
       keyword: 'SYSTEM',
@@ -254,7 +254,7 @@ abstract final class HomeData {
     HomeCaseStudy(
       title: 'Login & Registration',
       type: 'ACCOUNT ACCESS · ONBOARDING UX',
-      image: 'assets/site/login-registration.png',
+      image: 'assets/site/login-registration.webp',
       headline: 'Effortless access from the first step',
       subline: 'Log in, register, verify, and begin.',
       keyword: 'ACCESS',
@@ -331,7 +331,7 @@ abstract final class HomeData {
     BrandCase(
       title: 'FitLab Eats',
       label: 'NAMING · STRATEGY · IDENTITY · PRODUCT LANGUAGE',
-      logo: 'assets/site/fitlab-logo.png',
+      logo: 'assets/site/fitlab-logo.webp',
       intro: 'Healthy eating made simple, warm, and human.',
       body:
           'I shaped the brand from positioning to product expression: the optimistic '
@@ -346,7 +346,7 @@ abstract final class HomeData {
     BrandCase(
       title: 'Pillox',
       label: 'POSITIONING · LOGO SYSTEM · UX VOICE · PRODUCT BRAND',
-      logo: 'assets/site/pillox-logo.png',
+      logo: 'assets/site/pillox-logo.webp',
       intro: 'A medication reminder that reassures, not alarms.',
       body:
           'The pill and letterform become one recognizable product mark. A calm blue '
@@ -361,7 +361,7 @@ abstract final class HomeData {
     BrandCase(
       title: 'Happy Focus',
       label: 'STORYTELLING · CHARACTER LANGUAGE · ART DIRECTION',
-      logo: 'assets/site/happyfocus-logo.png',
+      logo: 'assets/site/happyfocus-logo.webp',
       intro: 'Focus practice reframed as a joyful adventure.',
       body:
           'I created a playful identity system with bold display type, reward-led '

@@ -8,7 +8,7 @@ abstract final class YemeksepetiProjectData {
   static const year = '2026';
   static const tagline = 'A Bite Away, Anytime!';
 
-  static const coverAsset = 'assets/projects/yemeksepeti/ys_watch_hero.png';
+  static const coverAsset = 'assets/projects/yemeksepeti/ys_watch_hero.webp';
 
   /// Figma board exports in case-study order (About excluded).
   static const boardAssets = <String>[

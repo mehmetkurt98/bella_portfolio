@@ -24,7 +24,7 @@ abstract final class SampleData {
       title: 'FitLab Eats',
       category: 'UI/UX',
       year: '2026',
-      imageAsset: 'assets/projects/fitlab/fitlab_cover.png',
+      imageAsset: 'assets/projects/fitlab/fitlab_cover.webp',
       description:
           'Healthy eating made simple — nutrition habits, goals, and tracking.',
       projectId: 'fitlab',
@@ -33,7 +33,7 @@ abstract final class SampleData {
       title: 'Coca-Cola Lime',
       category: 'UI/UX',
       year: '2026',
-      imageAsset: 'assets/projects/cola/cola_cover.png',
+      imageAsset: 'assets/projects/cola/cola_cover.webp',
       description:
           'A seamless pre-order experience for Coca-Cola Lime.',
       projectId: 'cola',
@@ -42,7 +42,7 @@ abstract final class SampleData {
       title: 'Style Me Zara!',
       category: 'UI/UX',
       year: '2026',
-      imageAsset: 'assets/projects/zara/zara_cover.png',
+      imageAsset: 'assets/projects/zara/zara_cover.webp',
       description:
           'Personalized shopping that reduces decision fatigue through GUIDE.',
       projectId: 'zara',
@@ -60,7 +60,7 @@ abstract final class SampleData {
       title: 'Login & Registration',
       category: 'UI/UX',
       year: '2026',
-      imageAsset: 'assets/projects/login/login_cover.png',
+      imageAsset: 'assets/projects/login/login_cover.webp',
       description:
           'Effortlessly log in or register to access services.',
       projectId: 'login',

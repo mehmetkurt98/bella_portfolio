@@ -45,28 +45,28 @@ abstract final class ColaProjectData {
   ];
 
   static const heroImage = 'assets/projects/cola/coca_cola1.webp';
-  static const logoIcon = 'assets/projects/cola/cola30.png';
-  static const challengeImage = 'assets/projects/cola/cola2.png';
-  static const timeframeImage = 'assets/projects/cola/cola3.png';
-  static const swotImage = 'assets/projects/cola/cola4.png';
+  static const logoIcon = 'assets/projects/cola/cola30.webp';
+  static const challengeImage = 'assets/projects/cola/cola2.webp';
+  static const timeframeImage = 'assets/projects/cola/cola3.webp';
+  static const swotImage = 'assets/projects/cola/cola4.webp';
 
-  static const gilroyWeights = 'assets/projects/cola/cola5.png';
-  static const gilroyMark = 'assets/projects/cola/cola6.png';
-  static const gilroySpecimen = 'assets/projects/cola/cola7.png';
-  static const overlockWeights = 'assets/projects/cola/cola8.png';
-  static const overlockMark = 'assets/projects/cola/cola9.png';
-  static const overlockSpecimen = 'assets/projects/cola/cola10.png';
-  static const colorPalette = 'assets/projects/cola/cola11.png';
-  static const personaImage = 'assets/projects/cola/cola12.png';
+  static const gilroyWeights = 'assets/projects/cola/cola5.webp';
+  static const gilroyMark = 'assets/projects/cola/cola6.webp';
+  static const gilroySpecimen = 'assets/projects/cola/cola7.webp';
+  static const overlockWeights = 'assets/projects/cola/cola8.webp';
+  static const overlockMark = 'assets/projects/cola/cola9.webp';
+  static const overlockSpecimen = 'assets/projects/cola/cola10.webp';
+  static const colorPalette = 'assets/projects/cola/cola11.webp';
+  static const personaImage = 'assets/projects/cola/cola12.webp';
   static const developImages = <String>[
-    'assets/projects/cola/cola13.png',
-    'assets/projects/cola/cola14.png',
+    'assets/projects/cola/cola13.webp',
+    'assets/projects/cola/cola14.webp',
   ];
   static const wireframeImages = <String>[
-    'assets/projects/cola/cola15.png',
-    'assets/projects/cola/cola16.png',
-    'assets/projects/cola/cola17.png',
-    'assets/projects/cola/cola18.png',
+    'assets/projects/cola/cola15.webp',
+    'assets/projects/cola/cola16.webp',
+    'assets/projects/cola/cola17.webp',
+    'assets/projects/cola/cola18.webp',
   ];
   static const wireframeLabels = <String>[
     'Homepage',
@@ -74,18 +74,18 @@ abstract final class ColaProjectData {
     'About Us',
     'Impact',
   ];
-  static const wireframeHero = 'assets/projects/cola/cola19.png';
+  static const wireframeHero = 'assets/projects/cola/cola19.webp';
   static const deliverImages = <String>[
-    'assets/projects/cola/cola20.png',
-    'assets/projects/cola/cola21.png',
-    'assets/projects/cola/cola22.png',
-    'assets/projects/cola/cola23.png',
-    'assets/projects/cola/cola24.png',
-    'assets/projects/cola/cola25.png',
-    'assets/projects/cola/cola26.png',
-    'assets/projects/cola/cola27.png',
-    'assets/projects/cola/cola28.png',
-    'assets/projects/cola/cola29.png',
+    'assets/projects/cola/cola20.webp',
+    'assets/projects/cola/cola21.webp',
+    'assets/projects/cola/cola22.webp',
+    'assets/projects/cola/cola23.webp',
+    'assets/projects/cola/cola24.webp',
+    'assets/projects/cola/cola25.webp',
+    'assets/projects/cola/cola26.webp',
+    'assets/projects/cola/cola27.webp',
+    'assets/projects/cola/cola28.webp',
+    'assets/projects/cola/cola29.webp',
   ];
 
   static const introTitle = 'LIME UP YOUR DAY!';

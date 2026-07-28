@@ -7,7 +7,7 @@ abstract final class ZaraProjectData {
   static const description =
       'A personalized shopping experience designed to reduce decision fatigue '
       'and improve engagement, validated through A/B testing.';
-  static const heroImage = 'assets/projects/zara/zara1.png';
+  static const heroImage = 'assets/projects/zara/zara1.webp';
 
   static const overviewTitle = 'STYLE ME ZARA!';
   static const overviewIntro =
@@ -479,7 +479,7 @@ abstract final class ZaraProjectData {
   static const personas = <ZaraPersona>[
     ZaraPersona(
       title: 'Style-Conscious Teenager Sarah',
-      imageAsset: 'assets/projects/zara/zara2.png',
+      imageAsset: 'assets/projects/zara/zara2.webp',
       layout: ZaraPersonaLayout.horizontal,
       cardWidth: 596,
       cardHeight: 459,
@@ -493,7 +493,7 @@ abstract final class ZaraProjectData {
     ),
     ZaraPersona(
       title: 'Fashion-Curious College Student Alex',
-      imageAsset: 'assets/projects/zara/zara4.png',
+      imageAsset: 'assets/projects/zara/zara4.webp',
       layout: ZaraPersonaLayout.vertical,
       cardWidth: 475,
       cardHeight: 683,
@@ -506,7 +506,7 @@ abstract final class ZaraProjectData {
     ),
     ZaraPersona(
       title: 'Practical and Budget-Conscious Family Mom Linda',
-      imageAsset: 'assets/projects/zara/zara3.png',
+      imageAsset: 'assets/projects/zara/zara3.webp',
       layout: ZaraPersonaLayout.horizontal,
       cardWidth: 596,
       cardHeight: 459,
@@ -521,7 +521,7 @@ abstract final class ZaraProjectData {
     ),
     ZaraPersona(
       title: 'Fashion Enthusiast Emily',
-      imageAsset: 'assets/projects/zara/zara5.png',
+      imageAsset: 'assets/projects/zara/zara5.webp',
       layout: ZaraPersonaLayout.vertical,
       cardWidth: 475,
       cardHeight: 670,
@@ -536,7 +536,7 @@ abstract final class ZaraProjectData {
     ),
     ZaraPersona(
       title: 'Busy Professional Mark',
-      imageAsset: 'assets/projects/zara/zara7.png',
+      imageAsset: 'assets/projects/zara/zara7.webp',
       layout: ZaraPersonaLayout.horizontal,
       cardWidth: 591,
       cardHeight: 451,
@@ -550,7 +550,7 @@ abstract final class ZaraProjectData {
     ),
     ZaraPersona(
       title: 'Sophisticated Trendsetter James',
-      imageAsset: 'assets/projects/zara/zara6.png',
+      imageAsset: 'assets/projects/zara/zara6.webp',
       layout: ZaraPersonaLayout.horizontal,
       cardWidth: 593,
       cardHeight: 437,
@@ -578,13 +578,13 @@ abstract final class ZaraProjectData {
         'engaging user journey.',
   ];
 
-  static const deliverHeroImage = 'assets/projects/zara/zara8.png';
+  static const deliverHeroImage = 'assets/projects/zara/zara8.webp';
 
   static const deliverScreens = <String>[
-    'assets/projects/zara/zara9.png',
-    'assets/projects/zara/zara10.png',
-    'assets/projects/zara/zara11.png',
-    'assets/projects/zara/zara12.png',
+    'assets/projects/zara/zara9.webp',
+    'assets/projects/zara/zara10.webp',
+    'assets/projects/zara/zara11.webp',
+    'assets/projects/zara/zara12.webp',
   ];
 }
 

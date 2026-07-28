@@ -5,7 +5,7 @@ abstract final class FitlabProjectData {
   static const title = 'FitLab Eats';
   static const category = 'UI/UX · Product';
   static const year = '2026';
-  static const coverAsset = 'assets/projects/fitlab/fitlab_cover.png';
+  static const coverAsset = 'assets/projects/fitlab/fitlab_cover.webp';
 
   static const brandYellow = Color(0xFFF5C518);
   static const brandYellowDeep = Color(0xFFE6B800);
