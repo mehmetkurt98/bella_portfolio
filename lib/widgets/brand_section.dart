@@ -5,8 +5,15 @@ import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import 'shared.dart';
 
-class BrandSection extends StatelessWidget {
+class BrandSection extends StatefulWidget {
   const BrandSection({super.key});
+
+  @override
+  State<BrandSection> createState() => _BrandSectionState();
+}
+
+class _BrandSectionState extends State<BrandSection> {
+  int? _openIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -58,13 +65,14 @@ class BrandSection extends StatelessWidget {
                     ],
                   ),
             const SizedBox(height: 48),
-            EqualHeightGrid(
-              itemCount: HomeData.brandCases.length,
+            _BrandGrid(
               columns: columns,
-              spacing: 22,
-              runSpacing: 14,
-              itemBuilder: (context, index) =>
-                  _BrandCard(item: HomeData.brandCases[index]),
+              openIndex: _openIndex,
+              onToggle: (index) {
+                setState(() {
+                  _openIndex = _openIndex == index ? null : index;
+                });
+              },
             ),
           ],
         ),
@@ -114,27 +122,76 @@ class _Heading extends StatelessWidget {
   }
 }
 
-class _BrandCard extends StatefulWidget {
-  const _BrandCard({required this.item});
+class _BrandGrid extends StatelessWidget {
+  const _BrandGrid({
+    required this.columns,
+    required this.openIndex,
+    required this.onToggle,
+  });
 
-  final BrandCase item;
+  final int columns;
+  final int? openIndex;
+  final ValueChanged<int> onToggle;
 
   @override
-  State<_BrandCard> createState() => _BrandCardState();
+  Widget build(BuildContext context) {
+    final items = HomeData.brandCases;
+    final rows = <Widget>[];
+
+    for (var i = 0; i < items.length; i += columns) {
+      final count = (items.length - i).clamp(0, columns);
+      rows.add(
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (var j = 0; j < columns; j++) ...[
+              if (j > 0) const SizedBox(width: 22),
+              Expanded(
+                child: j < count
+                    ? _BrandCard(
+                        item: items[i + j],
+                        open: openIndex == i + j,
+                        onToggle: () => onToggle(i + j),
+                      )
+                    : const SizedBox.shrink(),
+              ),
+            ],
+          ],
+        ),
+      );
+      if (i + columns < items.length) {
+        rows.add(const SizedBox(height: 14));
+      }
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: rows,
+    );
+  }
 }
 
-class _BrandCardState extends State<_BrandCard> {
-  bool _open = false;
+class _BrandCard extends StatelessWidget {
+  const _BrandCard({
+    required this.item,
+    required this.open,
+    required this.onToggle,
+  });
+
+  final BrandCase item;
+  final bool open;
+  final VoidCallback onToggle;
 
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 280),
+      curve: Curves.easeOutCubic,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(26),
         border: Border.all(
-          color: AppColors.mustard.withValues(alpha: _open ? 1 : 0.78),
+          color: AppColors.mustard.withValues(alpha: open ? 1 : 0.78),
         ),
         boxShadow: [
           BoxShadow(
@@ -144,23 +201,23 @@ class _BrandCardState extends State<_BrandCard> {
           ),
         ],
       ),
+      clipBehavior: Clip.antiAlias,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
         children: [
           InkWell(
-            onTap: () => setState(() => _open = !_open),
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(26)),
+            onTap: onToggle,
             child: SizedBox(
-              height: 360,
+              height: 340,
               child: Stack(
                 children: [
-                  Center(
+                  Positioned.fill(
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(28, 44, 28, 70),
                       child: Image.asset(
-                        widget.item.logo,
+                        item.logo,
                         fit: BoxFit.contain,
-                        height: 250,
                         filterQuality: FilterQuality.high,
                       ),
                     ),
@@ -178,7 +235,7 @@ class _BrandCardState extends State<_BrandCard> {
                       ),
                       alignment: Alignment.center,
                       child: Text(
-                        _open ? '×' : '+',
+                        open ? '×' : '+',
                         style: const TextStyle(fontSize: 18),
                       ),
                     ),
@@ -187,86 +244,92 @@ class _BrandCardState extends State<_BrandCard> {
               ),
             ),
           ),
-          AnimatedCrossFade(
-            firstChild: const SizedBox(width: double.infinity),
-            secondChild: Container(
-              padding: const EdgeInsets.fromLTRB(30, 38, 30, 42),
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    color: AppColors.mustard.withValues(alpha: 0.78),
-                  ),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.item.label,
-                    style: AppTheme.sans.copyWith(
-                      fontSize: 8,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 1.3,
-                      color: AppColors.muted,
+          AnimatedSize(
+            duration: const Duration(milliseconds: 280),
+            curve: Curves.easeOutCubic,
+            alignment: Alignment.topCenter,
+            child: open
+                ? Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.fromLTRB(30, 38, 30, 42),
+                    decoration: BoxDecoration(
+                      border: Border(
+                        top: BorderSide(
+                          color: AppColors.mustard.withValues(alpha: 0.78),
+                        ),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 22),
-                  Text(
-                    widget.item.title,
-                    style: AppTheme.serif.copyWith(
-                      fontSize: 48,
-                      fontWeight: FontWeight.w500,
-                      height: 0.95,
-                      letterSpacing: -1.5,
-                    ),
-                  ),
-                  const SizedBox(height: 14),
-                  Text(
-                    widget.item.intro,
-                    style: AppTheme.sans.copyWith(
-                      fontSize: 18,
-                      height: 1.45,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                  Text(
-                    widget.item.body,
-                    style: AppTheme.sans.copyWith(
-                      fontSize: 13,
-                      height: 1.75,
-                      color: AppColors.muted,
-                    ),
-                  ),
-                  const SizedBox(height: 38),
-                  Container(
-                    padding: const EdgeInsets.only(top: 24),
-                    decoration: const BoxDecoration(
-                      border: Border(top: BorderSide(color: AppColors.border)),
-                    ),
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Expanded(
-                          child: _Meta(
-                            label: widget.item.ideaLabel,
-                            value: widget.item.idea,
+                        Text(
+                          item.label,
+                          style: AppTheme.sans.copyWith(
+                            fontSize: 8,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 1.3,
+                            color: AppColors.muted,
                           ),
                         ),
-                        Expanded(
-                          child: _Meta(
-                            label: widget.item.principleLabel,
-                            value: widget.item.principle,
+                        const SizedBox(height: 22),
+                        Text(
+                          item.title,
+                          style: AppTheme.serif.copyWith(
+                            fontSize: 42,
+                            fontWeight: FontWeight.w500,
+                            height: 0.95,
+                            letterSpacing: -1.5,
+                          ),
+                        ),
+                        const SizedBox(height: 14),
+                        Text(
+                          item.intro,
+                          style: AppTheme.sans.copyWith(
+                            fontSize: 16,
+                            height: 1.45,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        Text(
+                          item.body,
+                          style: AppTheme.sans.copyWith(
+                            fontSize: 13,
+                            height: 1.75,
+                            color: AppColors.muted,
+                          ),
+                        ),
+                        const SizedBox(height: 38),
+                        Container(
+                          padding: const EdgeInsets.only(top: 24),
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              top: BorderSide(color: AppColors.border),
+                            ),
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: _Meta(
+                                  label: item.ideaLabel,
+                                  value: item.idea,
+                                ),
+                              ),
+                              Expanded(
+                                child: _Meta(
+                                  label: item.principleLabel,
+                                  value: item.principle,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-            ),
-            crossFadeState:
-                _open ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-            duration: const Duration(milliseconds: 280),
+                  )
+                : const SizedBox(width: double.infinity),
           ),
         ],
       ),
@@ -284,6 +347,7 @@ class _Meta extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Text(
           label,

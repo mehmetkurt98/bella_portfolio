@@ -60,74 +60,113 @@ class CreativeSection extends StatelessWidget {
                     ],
                   ),
             const SizedBox(height: 48),
-            EqualHeightGrid(
-              itemCount: HomeData.creativeItems.length,
-              columns: columns,
-              spacing: 22,
-              runSpacing: 14,
-              itemBuilder: (context, index) {
-                final item = HomeData.creativeItems[index];
-                return Container(
-                  constraints: const BoxConstraints(minHeight: 280),
-                  padding: const EdgeInsets.all(34),
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.95),
-                    borderRadius: BorderRadius.circular(26),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.foreground.withValues(alpha: 0.1),
-                        blurRadius: 55,
-                        offset: const Offset(0, 18),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+            Builder(
+              builder: (context) {
+                final items = HomeData.creativeItems;
+                final cardTitleSize = (width * 0.03).clamp(32.0, 48.0);
+                if (columns == 1) {
+                  return Column(
                     children: [
-                      Text(
-                        item.number,
-                        style: AppTheme.sans.copyWith(
-                          fontSize: 9,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 1.5,
-                          color: AppColors.foreground.withValues(alpha: 0.72),
+                      for (var i = 0; i < items.length; i++) ...[
+                        if (i > 0) const SizedBox(height: 14),
+                        _CreativeCard(
+                          item: items[i],
+                          titleSize: cardTitleSize,
                         ),
-                      ),
-                      const SizedBox(height: 54),
-                      Text(
-                        item.title,
-                        style: AppTheme.serif.copyWith(
-                          fontSize: (width * 0.03).clamp(36.0, 48.0),
-                          fontWeight: FontWeight.w500,
-                          height: 0.95,
-                          letterSpacing: -1,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        item.subtitle,
-                        style: AppTheme.sans.copyWith(
-                          fontSize: 12,
-                          height: 1.5,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      Text(
-                        item.body,
-                        style: AppTheme.sans.copyWith(
-                          fontSize: 12,
-                          height: 1.72,
-                          color: AppColors.foreground.withValues(alpha: 0.82),
+                      ],
+                    ],
+                  );
+                }
+
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    for (var i = 0; i < items.length; i++) ...[
+                      if (i > 0) const SizedBox(width: 22),
+                      Expanded(
+                        child: _CreativeCard(
+                          item: items[i],
+                          titleSize: cardTitleSize,
                         ),
                       ),
                     ],
-                  ),
+                  ],
                 );
               },
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _CreativeCard extends StatelessWidget {
+  const _CreativeCard({
+    required this.item,
+    required this.titleSize,
+  });
+
+  final CreativeItem item;
+  final double titleSize;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(34),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.95),
+        borderRadius: BorderRadius.circular(26),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.foreground.withValues(alpha: 0.1),
+            blurRadius: 55,
+            offset: const Offset(0, 18),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            item.number,
+            style: AppTheme.sans.copyWith(
+              fontSize: 9,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1.5,
+              color: AppColors.foreground.withValues(alpha: 0.72),
+            ),
+          ),
+          const SizedBox(height: 40),
+          Text(
+            item.title,
+            style: AppTheme.serif.copyWith(
+              fontSize: titleSize.clamp(32.0, 48.0),
+              fontWeight: FontWeight.w500,
+              height: 1.05,
+              letterSpacing: -1,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            item.subtitle,
+            style: AppTheme.sans.copyWith(
+              fontSize: 12,
+              height: 1.5,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            item.body,
+            style: AppTheme.sans.copyWith(
+              fontSize: 12,
+              height: 1.72,
+              color: AppColors.foreground.withValues(alpha: 0.82),
+            ),
+          ),
+        ],
       ),
     );
   }
