@@ -240,28 +240,23 @@ class _ExpandedBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final wide = MediaQuery.sizeOf(context).width > 900;
-    final image = Container(
-      constraints: BoxConstraints(minHeight: wide ? 530 : 0),
-      color: Colors.white,
-      child: AspectRatio(
-        aspectRatio: wide ? 1.2 : 1.08,
-        child: Padding(
-          padding: EdgeInsets.all(project.logoOnly ? 48 : 0),
-          child: Image.asset(
-            project.image,
-            fit: BoxFit.contain,
-            filterQuality: FilterQuality.high,
-          ),
-        ),
-      ),
-    );
+    final textOnly = project.logoOnly;
 
     final copy = Container(
-      constraints: BoxConstraints(minHeight: wide ? 530 : 340),
-      padding: EdgeInsets.all(wide ? 52 : 28),
+      constraints: BoxConstraints(
+        minHeight: textOnly ? 0 : (wide ? 530 : 340),
+        maxWidth: textOnly ? 820 : double.infinity,
+      ),
+      padding: EdgeInsets.fromLTRB(
+        wide ? 52 : 28,
+        wide ? (textOnly ? 28 : 52) : 28,
+        wide ? 52 : 28,
+        wide ? (textOnly ? 40 : 52) : 28,
+      ),
       color: Colors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             'THE WORK BEHIND THE WORK',
@@ -276,7 +271,7 @@ class _ExpandedBody extends StatelessWidget {
           Text(
             project.title,
             style: AppTheme.serif.copyWith(
-              fontSize: wide ? 52 : 39,
+              fontSize: wide ? (textOnly ? 44 : 52) : 39,
               fontWeight: FontWeight.w500,
               height: 0.95,
               letterSpacing: -1.5,
@@ -319,6 +314,29 @@ class _ExpandedBody extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+
+    if (textOnly) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 38),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: copy,
+        ),
+      );
+    }
+
+    final image = Container(
+      constraints: BoxConstraints(minHeight: wide ? 530 : 0),
+      color: Colors.white,
+      child: AspectRatio(
+        aspectRatio: wide ? 1.2 : 1.08,
+        child: Image.asset(
+          project.image,
+          fit: BoxFit.contain,
+          filterQuality: FilterQuality.high,
+        ),
       ),
     );
 
