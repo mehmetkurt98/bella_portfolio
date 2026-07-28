@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../data/sample_data.dart';
 import '../models/portfolio_item.dart';
 import '../screens/projects/cola_screen.dart';
+import '../screens/projects/components_screen.dart';
 import '../screens/projects/feedback_screen.dart';
 import '../screens/projects/fitlab_screen.dart';
 import '../screens/projects/login_screen.dart';
@@ -117,6 +118,7 @@ class _EditorialShowcaseState extends State<_EditorialShowcase> {
       'purchase' => const PurchaseScreen(),
       'login' => const LoginScreen(),
       'feedback' => const FeedbackScreen(),
+      'components' => const ComponentsScreen(),
       _ => null,
     };
 
@@ -346,6 +348,7 @@ class _QuietWorkTileState extends State<_QuietWorkTile> {
       'cola' => const ColaScreen(),
       'fitlab' => const FitlabScreen(),
       'yemeksepeti' => const YemeksepetiScreen(),
+      'components' => const ComponentsScreen(),
       _ => null,
     };
 

@@ -67,6 +67,7 @@ flutter:
     - assets/projects/purchase/
     - assets/projects/login/
     - assets/projects/feedback/
+    - assets/projects/components/
     - assets/about/
     - assets/site/
 

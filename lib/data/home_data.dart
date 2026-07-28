@@ -226,7 +226,7 @@ abstract final class HomeData {
       headline: 'A system designed to scale',
       subline: 'Reusable patterns. Consistent experiences.',
       keyword: 'SYSTEM',
-      projectId: 'zara',
+      projectId: 'components',
       details: [
         CaseDetail(
           label: '01 / FOUNDATION',

@@ -8,6 +8,7 @@ import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../widgets/shared.dart';
 import 'projects/cola_screen.dart';
+import 'projects/components_screen.dart';
 import 'projects/feedback_screen.dart';
 import 'projects/fitlab_screen.dart';
 import 'projects/login_screen.dart';
@@ -111,6 +112,7 @@ class _CategoryWorkCardState extends State<_CategoryWorkCard> {
       'purchase' => const PurchaseScreen(),
       'login' => const LoginScreen(),
       'feedback' => const FeedbackScreen(),
+      'components' => const ComponentsScreen(),
       _ => null,
     };
 

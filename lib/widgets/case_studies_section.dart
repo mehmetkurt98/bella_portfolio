@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data/home_data.dart';
 import '../screens/projects/cola_screen.dart';
+import '../screens/projects/components_screen.dart';
 import '../screens/projects/feedback_screen.dart';
 import '../screens/projects/fitlab_screen.dart';
 import '../screens/projects/login_screen.dart';
@@ -179,6 +180,7 @@ class _FeatureCaseCardState extends State<_FeatureCaseCard> {
       'purchase' => const PurchaseScreen(),
       'login' => const LoginScreen(),
       'feedback' => const FeedbackScreen(),
+      'components' => const ComponentsScreen(),
       _ => null,
     };
     if (screen == null) return;
