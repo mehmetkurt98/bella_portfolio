@@ -78,18 +78,28 @@ class CreativeSection extends StatelessWidget {
                   );
                 }
 
-                return Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                return Table(
+                  defaultVerticalAlignment: TableCellVerticalAlignment.fill,
+                  columnWidths: {
+                    for (var i = 0; i < items.length; i++)
+                      i: const FlexColumnWidth(1),
+                  },
                   children: [
-                    for (var i = 0; i < items.length; i++) ...[
-                      if (i > 0) const SizedBox(width: 22),
-                      Expanded(
-                        child: _CreativeCard(
-                          item: items[i],
-                          titleSize: cardTitleSize,
-                        ),
-                      ),
-                    ],
+                    TableRow(
+                      children: [
+                        for (var i = 0; i < items.length; i++)
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: i == 0 ? 0 : 11,
+                              right: i == items.length - 1 ? 0 : 11,
+                            ),
+                            child: _CreativeCard(
+                              item: items[i],
+                              titleSize: cardTitleSize,
+                            ),
+                          ),
+                      ],
+                    ),
                   ],
                 );
               },
@@ -112,8 +122,7 @@ class _CreativeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(34),
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.95),
         borderRadius: BorderRadius.circular(26),
@@ -125,48 +134,50 @@ class _CreativeCard extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            item.number,
-            style: AppTheme.sans.copyWith(
-              fontSize: 9,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 1.5,
-              color: AppColors.foreground.withValues(alpha: 0.72),
+      child: Padding(
+        padding: const EdgeInsets.all(34),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              item.number,
+              style: AppTheme.sans.copyWith(
+                fontSize: 9,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 1.5,
+                color: AppColors.foreground.withValues(alpha: 0.72),
+              ),
             ),
-          ),
-          const SizedBox(height: 40),
-          Text(
-            item.title,
-            style: AppTheme.serif.copyWith(
-              fontSize: titleSize.clamp(32.0, 48.0),
-              fontWeight: FontWeight.w500,
-              height: 1.05,
-              letterSpacing: -1,
+            const SizedBox(height: 40),
+            Text(
+              item.title,
+              style: AppTheme.serif.copyWith(
+                fontSize: titleSize.clamp(32.0, 48.0),
+                fontWeight: FontWeight.w500,
+                height: 1.05,
+                letterSpacing: -1,
+              ),
             ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            item.subtitle,
-            style: AppTheme.sans.copyWith(
-              fontSize: 12,
-              height: 1.5,
-              fontWeight: FontWeight.w600,
+            const SizedBox(height: 8),
+            Text(
+              item.subtitle,
+              style: AppTheme.sans.copyWith(
+                fontSize: 12,
+                height: 1.5,
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            item.body,
-            style: AppTheme.sans.copyWith(
-              fontSize: 12,
-              height: 1.72,
-              color: AppColors.foreground.withValues(alpha: 0.82),
+            const SizedBox(height: 20),
+            Text(
+              item.body,
+              style: AppTheme.sans.copyWith(
+                fontSize: 12,
+                height: 1.72,
+                color: AppColors.foreground.withValues(alpha: 0.82),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

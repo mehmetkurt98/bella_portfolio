@@ -206,7 +206,7 @@ class _FeatureCaseCardState extends State<_FeatureCaseCard> {
           curve: Curves.easeOutCubic,
           transform: Matrix4.translationValues(0, _hovered ? -6 : 0, 0),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: const Color(0xFFF7F7F5),
             borderRadius: BorderRadius.circular(compact ? 20 : 25),
             border: Border.all(
               color: AppColors.mustard.withValues(alpha: _hovered ? 1 : 0.8),
@@ -229,84 +229,118 @@ class _FeatureCaseCardState extends State<_FeatureCaseCard> {
           ),
           clipBehavior: Clip.antiAlias,
           child: AspectRatio(
-            aspectRatio: compact ? 1.08 : 1.18,
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                final panelW =
-                    constraints.maxWidth * (compact ? 0.56 : 0.53);
-                final maxPanelH =
-                    constraints.maxHeight * (compact ? 0.78 : 0.72);
-
-                return Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    _CaseVisual(item: widget.item, hovered: _hovered),
-                    IgnorePointer(
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.white.withValues(alpha: 0),
-                              Colors.white.withValues(alpha: 0.12),
-                              Colors.white.withValues(alpha: 0.35),
-                            ],
-                            stops: const [0.38, 0.68, 1],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      left: compact ? 12 : 16,
-                      top: compact ? 12 : 16,
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: compact ? 10 : 11,
-                          vertical: 8,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.88),
-                          borderRadius: BorderRadius.circular(999),
-                          border: Border.all(
-                            color: AppColors.mustard.withValues(alpha: 0.9),
-                          ),
-                        ),
-                        child: Text(
-                          widget.item.keyword,
-                          style: AppTheme.sans.copyWith(
-                            fontSize: 7,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: 1.6,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      right: compact ? 12 : 16,
-                      top: 0,
-                      bottom: 0,
-                      width: panelW,
-                      child: Center(
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(
-                            maxWidth: panelW,
-                            maxHeight: maxPanelH,
-                          ),
-                          child: FittedBox(
-                            fit: BoxFit.scaleDown,
-                            alignment: Alignment.center,
-                            child: SizedBox(
-                              width: panelW,
-                              child: _CoverCopy(item: widget.item),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
+            // CSS: 1.3 / 1 desktop, .92 / 1 mobile
+            aspectRatio: compact ? 0.92 : 1.3,
+            child: compact ? _buildCompact() : _buildWide(),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWide() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // CSS ::before { right: 34% } → divider at 66% from left
+        final dividerX = constraints.maxWidth * 0.66;
+        return Stack(
+          fit: StackFit.expand,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  flex: 165,
+                  child: _CaseVisual(item: widget.item, hovered: _hovered),
+                ),
+                Expanded(
+                  flex: 85,
+                  child: _CoverCopy(item: widget.item),
+                ),
+              ],
+            ),
+            Positioned(
+              left: dividerX,
+              top: 0,
+              bottom: 0,
+              width: 1,
+              child: const ColoredBox(color: Color(0xE0E9E241)),
+            ),
+            Positioned(
+              left: 16,
+              top: 16,
+              child: _KeywordChip(label: widget.item.keyword),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildCompact() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Expanded(
+          flex: 68,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              _CaseVisual(item: widget.item, hovered: _hovered),
+              Positioned(
+                left: 12,
+                top: 12,
+                child: _KeywordChip(label: widget.item.keyword, compact: true),
+              ),
+            ],
+          ),
+        ),
+        const ColoredBox(
+          color: Color(0xE0E9E241),
+          child: SizedBox(height: 1, width: double.infinity),
+        ),
+        Expanded(
+          flex: 32,
+          child: _CoverCopy(item: widget.item),
+        ),
+      ],
+    );
+  }
+}
+
+class _KeywordChip extends StatelessWidget {
+  const _KeywordChip({required this.label, this.compact = false});
+
+  final String label;
+  final bool compact;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+        horizontal: compact ? 10 : 11,
+        vertical: 8,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.88),
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(
+          color: AppColors.mustard.withValues(alpha: 0.9),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.foreground.withValues(alpha: 0.08),
+            blurRadius: 24,
+            offset: const Offset(0, 9),
+          ),
+        ],
+      ),
+      child: Text(
+        label,
+        style: AppTheme.sans.copyWith(
+          fontSize: 7,
+          fontWeight: FontWeight.w800,
+          letterSpacing: 1.6,
         ),
       ),
     );
@@ -319,6 +353,14 @@ class _CaseVisual extends StatelessWidget {
   final HomeCaseStudy item;
   final bool hovered;
 
+  Alignment get _alignment {
+    // CSS: .case-feature-2 → object-position: center 44%
+    if (item.projectId == 'yemeksepeti') {
+      return const Alignment(0, -0.12);
+    }
+    return Alignment.center;
+  }
+
   @override
   Widget build(BuildContext context) {
     if (item.secondaryImage != null) {
@@ -329,17 +371,23 @@ class _CaseVisual extends StatelessWidget {
       );
     }
 
-    return AnimatedScale(
-      scale: hovered ? 1.035 : 1,
-      duration: const Duration(milliseconds: 650),
-      curve: const Cubic(0.2, 0.7, 0.2, 1),
-      child: Image.asset(
-        item.image,
-        fit: BoxFit.cover,
-        alignment: Alignment.center,
-        filterQuality: FilterQuality.high,
-        width: double.infinity,
-        height: double.infinity,
+    // Match CSS patch: padding 0 + object-fit cover, edge-to-edge in image cell
+    return ColoredBox(
+      color: const Color(0xFFF7F7F5),
+      child: ClipRect(
+        child: AnimatedScale(
+          scale: hovered ? 1.035 : 1,
+          duration: const Duration(milliseconds: 650),
+          curve: const Cubic(0.2, 0.7, 0.2, 1),
+          child: SizedBox.expand(
+            child: Image.asset(
+              item.image,
+              fit: BoxFit.cover,
+              alignment: _alignment,
+              filterQuality: FilterQuality.high,
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -449,114 +497,104 @@ class _CoverCopy extends StatelessWidget {
   Widget build(BuildContext context) {
     final compact = MediaQuery.sizeOf(context).width < 680;
 
-    return Container(
-      padding: EdgeInsets.fromLTRB(
-        compact ? 14 : 18,
-        compact ? 16 : 18,
-        compact ? 14 : 18,
-        compact ? 14 : 16,
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.91),
-        borderRadius: BorderRadius.circular(compact ? 16 : 19),
-        border: Border.all(color: AppColors.mustard.withValues(alpha: 0.88)),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.foreground.withValues(alpha: 0.13),
-            blurRadius: 48,
-            offset: const Offset(0, 18),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            item.type,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: AppTheme.sans.copyWith(
-              fontSize: 6,
-              fontWeight: FontWeight.w700,
-              letterSpacing: 1.5,
-              height: 1.4,
-              color: AppColors.muted,
+    return ColoredBox(
+      color: Colors.white.withValues(alpha: 0.96),
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(
+          compact ? 16 : 14,
+          compact ? 14 : 18,
+          compact ? 16 : 14,
+          compact ? 12 : 15,
+        ),
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: Alignment.centerLeft,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: compact ? 280 : 220,
             ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            item.title,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: AppTheme.serif.copyWith(
-              fontSize: compact ? 26 : 30,
-              fontWeight: FontWeight.w500,
-              height: 0.96,
-              letterSpacing: -1,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            item.headline,
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
-            style: AppTheme.sans.copyWith(
-              fontSize: 8,
-              height: 1.45,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 3),
-          Text(
-            item.subline,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: AppTheme.sans.copyWith(
-              fontSize: 8,
-              height: 1.45,
-              color: AppColors.muted,
-            ),
-          ),
-          const SizedBox(height: 12),
-          Container(
-            padding: const EdgeInsets.only(top: 10),
-            decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(
-                  color: AppColors.foreground.withValues(alpha: 0.13),
-                ),
-              ),
-            ),
-            child: Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                  child: Text(
-                    'VIEW PROJECT',
+                Text(
+                  item.type,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.sans.copyWith(
+                    fontSize: 5.5,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 1.5,
+                    height: 1.45,
+                    color: AppColors.muted,
+                  ),
+                ),
+                SizedBox(height: compact ? 6 : 7),
+                Text(
+                  item.title,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTheme.serif.copyWith(
+                    fontSize: compact ? 26 : 28,
+                    fontWeight: FontWeight.w500,
+                    height: 0.96,
+                    letterSpacing: -1.2,
+                  ),
+                ),
+                SizedBox(height: compact ? 5 : 7),
+                if (!compact)
+                  Text(
+                    item.headline,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
                     style: AppTheme.sans.copyWith(
-                      fontSize: 7,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 1.1,
+                      fontSize: 8,
+                      height: 1.5,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                ),
+                SizedBox(height: compact ? 8 : 10),
                 Container(
-                  width: 25,
-                  height: 25,
-                  decoration: const BoxDecoration(
-                    color: AppColors.mustard,
-                    shape: BoxShape.circle,
+                  padding: EdgeInsets.only(top: compact ? 7 : 8),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        color: AppColors.foreground.withValues(alpha: 0.13),
+                      ),
+                    ),
                   ),
-                  alignment: Alignment.center,
-                  child: const Text(
-                    '↗',
-                    style: TextStyle(fontSize: 13, height: 1),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'VIEW PROJECT',
+                          style: AppTheme.sans.copyWith(
+                            fontSize: 7,
+                            fontWeight: FontWeight.w700,
+                            letterSpacing: 1.1,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 25,
+                        height: 25,
+                        decoration: const BoxDecoration(
+                          color: AppColors.mustard,
+                          shape: BoxShape.circle,
+                        ),
+                        alignment: Alignment.center,
+                        child: const Text(
+                          '↗',
+                          style: TextStyle(fontSize: 13, height: 1),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
-        ],
+        ),
       ),
     );
   }
