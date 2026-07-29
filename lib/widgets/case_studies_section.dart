@@ -354,9 +354,9 @@ class _CaseVisual extends StatelessWidget {
   final bool hovered;
 
   Alignment get _alignment {
-    // CSS: .case-feature-2 → object-position: center 44%
+    // Bias crop so wrist photo fills the frame (asset had white margins).
     if (item.projectId == 'yemeksepeti') {
-      return const Alignment(0, -0.12);
+      return const Alignment(0.05, -0.08);
     }
     return Alignment.center;
   }

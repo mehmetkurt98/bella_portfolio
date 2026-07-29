@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import '../data/home_data.dart';
 import '../theme/app_colors.dart';
@@ -78,29 +79,12 @@ class CreativeSection extends StatelessWidget {
                   );
                 }
 
-                return Table(
-                  defaultVerticalAlignment: TableCellVerticalAlignment.fill,
-                  columnWidths: {
-                    for (var i = 0; i < items.length; i++)
-                      i: const FlexColumnWidth(1),
-                  },
-                  children: [
-                    TableRow(
-                      children: [
-                        for (var i = 0; i < items.length; i++)
-                          Padding(
-                            padding: EdgeInsets.only(
-                              left: i == 0 ? 0 : 11,
-                              right: i == items.length - 1 ? 0 : 11,
-                            ),
-                            child: _CreativeCard(
-                              item: items[i],
-                              titleSize: cardTitleSize,
-                            ),
-                          ),
-                      ],
-                    ),
-                  ],
+                // Equal-height without max-height clamping: each card keeps its
+                // natural content height; we stretch only the paint via a
+                // shared min height that can always grow (never shrink content).
+                return _EqualHeightCreativeCards(
+                  items: items,
+                  titleSize: cardTitleSize,
                 );
               },
             ),
@@ -108,6 +92,136 @@ class CreativeSection extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _EqualHeightCreativeCards extends StatefulWidget {
+  const _EqualHeightCreativeCards({
+    required this.items,
+    required this.titleSize,
+  });
+
+  final List<CreativeItem> items;
+  final double titleSize;
+
+  @override
+  State<_EqualHeightCreativeCards> createState() =>
+      _EqualHeightCreativeCardsState();
+}
+
+class _EqualHeightCreativeCardsState extends State<_EqualHeightCreativeCards> {
+  static const _gap = 22.0;
+
+  final List<double> _heights = [];
+  double? _width;
+
+  double get _maxHeight {
+    if (_heights.length != widget.items.length) return 0;
+    return _heights.fold<double>(0, (m, h) => h > m ? h : m);
+  }
+
+  void _reportHeight(int index, double height, double width) {
+    if (!mounted) return;
+    if (_width != width) {
+      _width = width;
+      _heights
+        ..clear()
+        ..addAll(List<double>.filled(widget.items.length, 0));
+    }
+    if (_heights.length != widget.items.length) {
+      _heights
+        ..clear()
+        ..addAll(List<double>.filled(widget.items.length, 0));
+    }
+    if ((_heights[index] - height).abs() < 0.5) return;
+    setState(() => _heights[index] = height);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = constraints.maxWidth;
+        final cardWidth =
+            (width - _gap * (widget.items.length - 1)) / widget.items.length;
+        final targetHeight = _width == width ? _maxHeight : 0.0;
+
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            for (var i = 0; i < widget.items.length; i++) ...[
+              if (i > 0) const SizedBox(width: _gap),
+              SizedBox(
+                width: cardWidth,
+                child: _HeightReporter(
+                  onHeight: (h) => _reportHeight(i, h, width),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: targetHeight > 0 ? targetHeight : 0,
+                    ),
+                    child: _CreativeCard(
+                      item: widget.items[i],
+                      titleSize: widget.titleSize,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ],
+        );
+      },
+    );
+  }
+}
+
+/// Reports the child's natural layout height after each frame.
+class _HeightReporter extends SingleChildRenderObjectWidget {
+  const _HeightReporter({
+    required this.onHeight,
+    required super.child,
+  });
+
+  final ValueChanged<double> onHeight;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) {
+    return _RenderHeightReporter(onHeight);
+  }
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    covariant _RenderHeightReporter renderObject,
+  ) {
+    renderObject.onHeight = onHeight;
+  }
+}
+
+class _RenderHeightReporter extends RenderProxyBox {
+  _RenderHeightReporter(this.onHeight);
+
+  ValueChanged<double> onHeight;
+
+  @override
+  void performLayout() {
+    // Layout child with loose height so content is never clamped.
+    final childConstraints = BoxConstraints(
+      minWidth: constraints.minWidth,
+      maxWidth: constraints.maxWidth,
+      minHeight: 0,
+      maxHeight: double.infinity,
+    );
+    child!.layout(childConstraints, parentUsesSize: true);
+    final childSize = child!.size;
+    // Honor minHeight from parent for equal card backgrounds.
+    size = constraints.constrain(childSize);
+    if (childSize.height != size.height) {
+      // Parent asked for a taller card — child stays top-sized; we already
+      // have size. Paint offset handled by default (0,0).
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      onHeight(childSize.height);
+    });
   }
 }
 
@@ -122,7 +236,10 @@ class _CreativeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
+    return Container(
+      width: double.infinity,
+      alignment: Alignment.topLeft,
+      padding: const EdgeInsets.all(34),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.95),
         borderRadius: BorderRadius.circular(26),
@@ -134,50 +251,48 @@ class _CreativeCard extends StatelessWidget {
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(34),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              item.number,
-              style: AppTheme.sans.copyWith(
-                fontSize: 9,
-                fontWeight: FontWeight.w700,
-                letterSpacing: 1.5,
-                color: AppColors.foreground.withValues(alpha: 0.72),
-              ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            item.number,
+            style: AppTheme.sans.copyWith(
+              fontSize: 9,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 1.5,
+              color: AppColors.foreground.withValues(alpha: 0.72),
             ),
-            const SizedBox(height: 40),
-            Text(
-              item.title,
-              style: AppTheme.serif.copyWith(
-                fontSize: titleSize.clamp(32.0, 48.0),
-                fontWeight: FontWeight.w500,
-                height: 1.05,
-                letterSpacing: -1,
-              ),
+          ),
+          const SizedBox(height: 40),
+          Text(
+            item.title,
+            style: AppTheme.serif.copyWith(
+              fontSize: titleSize.clamp(32.0, 48.0),
+              fontWeight: FontWeight.w500,
+              height: 1.05,
+              letterSpacing: -1,
             ),
-            const SizedBox(height: 8),
-            Text(
-              item.subtitle,
-              style: AppTheme.sans.copyWith(
-                fontSize: 12,
-                height: 1.5,
-                fontWeight: FontWeight.w600,
-              ),
+          ),
+          const SizedBox(height: 8),
+          Text(
+            item.subtitle,
+            style: AppTheme.sans.copyWith(
+              fontSize: 12,
+              height: 1.5,
+              fontWeight: FontWeight.w600,
             ),
-            const SizedBox(height: 20),
-            Text(
-              item.body,
-              style: AppTheme.sans.copyWith(
-                fontSize: 12,
-                height: 1.72,
-                color: AppColors.foreground.withValues(alpha: 0.82),
-              ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            item.body,
+            style: AppTheme.sans.copyWith(
+              fontSize: 12,
+              height: 1.72,
+              color: AppColors.foreground.withValues(alpha: 0.82),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
