@@ -72,24 +72,6 @@ class ZaraDeliverSection extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: wide ? 64 : 40),
-                Text(
-                  'PURCHASE EXPERIENCE',
-                  textAlign: TextAlign.center,
-                  style: AppTheme.sans.copyWith(
-                    fontSize: wide ? 18 : 15,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 1.2,
-                    color: AppColors.foreground,
-                  ),
-                ),
-                SizedBox(height: wide ? 32 : 24),
-                _PhonePair(
-                  leftAsset: ZaraProjectData.deliverScreens[2],
-                  rightAsset: ZaraProjectData.deliverScreens[3],
-                  phoneAspect: _phoneAspect,
-                  emphasizeRight: true,
-                ),
               ],
             ),
           ),
@@ -104,13 +86,11 @@ class _PhonePair extends StatelessWidget {
     required this.leftAsset,
     required this.rightAsset,
     required this.phoneAspect,
-    this.emphasizeRight = false,
   });
 
   final String leftAsset;
   final String rightAsset;
   final double phoneAspect;
-  final bool emphasizeRight;
 
   static const _stagger = 120.0;
 
@@ -130,7 +110,6 @@ class _PhonePair extends StatelessWidget {
           _FullScreenPhone(
             asset: rightAsset,
             aspectRatio: phoneAspect,
-            emphasize: emphasizeRight,
           ),
         ],
       );
@@ -156,7 +135,6 @@ class _PhonePair extends StatelessWidget {
             child: _FullScreenPhone(
               asset: rightAsset,
               aspectRatio: phoneAspect,
-              emphasize: emphasizeRight,
             ),
           ),
         ),
@@ -169,31 +147,29 @@ class _FullScreenPhone extends StatelessWidget {
   const _FullScreenPhone({
     required this.asset,
     required this.aspectRatio,
-    this.emphasize = false,
   });
 
   final String asset;
   final double aspectRatio;
-  final bool emphasize;
 
   @override
   Widget build(BuildContext context) {
     return Center(
       child: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxWidth: emphasize ? 320 : 300,
-          maxHeight: emphasize ? 660 : 620,
+        constraints: const BoxConstraints(
+          maxWidth: 300,
+          maxHeight: 620,
         ),
         child: AspectRatio(
           aspectRatio: aspectRatio,
           child: Container(
             decoration: BoxDecoration(
               color: Colors.black,
-              borderRadius: BorderRadius.circular(emphasize ? 28 : 24),
+              borderRadius: BorderRadius.circular(24),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: emphasize ? 0.25 : 0.14),
-                  blurRadius: emphasize ? 28 : 18,
+                  color: Colors.black.withValues(alpha: 0.14),
+                  blurRadius: 18,
                   offset: const Offset(0, 10),
                 ),
               ],

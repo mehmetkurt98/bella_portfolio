@@ -583,8 +583,6 @@ abstract final class ZaraProjectData {
   static const deliverScreens = <String>[
     'assets/projects/zara/zara9.webp',
     'assets/projects/zara/zara10.webp',
-    'assets/projects/zara/zara11.webp',
-    'assets/projects/zara/zara12.webp',
   ];
 }
 
