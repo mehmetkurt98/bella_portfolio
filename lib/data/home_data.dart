@@ -190,7 +190,6 @@ abstract final class HomeData {
       title: 'Purchase',
       type: 'PURCHASE FLOW · CONVERSION UX',
       image: 'assets/site/zara-purchase.webp',
-      secondaryImage: 'assets/site/purchase-samsung.webp',
       headline: 'Purchase your items easily',
       subline: 'In just a few simple steps.',
       keyword: 'EFFORTLESS',
